@@ -98,13 +98,13 @@ public class MovementInput : MonoBehaviour {
             if (blockRotationPlayer == false) {
                 if (Input.GetButton("Jump") && !jumping)
                 {
-                    jumping = false;
+                     jumping = false;
                     desiredMoveDirection.y += jumpForce;
                     anim.SetTrigger("Jump");
                 }else
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetAxis("RightTrigger") > 0.4)
                    {
-                        // toggleMode("Run");
+                         toggleMode("Run");
                     
                         anim.SetTrigger("Run");
                         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);
@@ -118,8 +118,8 @@ public class MovementInput : MonoBehaviour {
                         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);                   
                         controller.Move(desiredMoveDirection * Time.deltaTime * WalkSpeed*10);
                     }
-                   desiredMoveDirection.y -= gravity * Time.deltaTime;
-              
+                if(!controller.isGrounded)
+                     desiredMoveDirection.y -= gravity * Time.deltaTime;
             }
         }
         else
