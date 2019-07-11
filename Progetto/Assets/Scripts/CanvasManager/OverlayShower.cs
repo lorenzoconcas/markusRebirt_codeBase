@@ -30,10 +30,9 @@ public class OverlayShower : MonoBehaviour
             Toggle();
             ToggleGameObjectVisibilty(pauseOverlay);          
         }       
-        else
+        else        
          if (introOverlay.activeSelf)
-            if (Input.anyKey)
-               
+            if (Input.anyKey)               
                   StartGame();
         
     }
@@ -52,6 +51,7 @@ public class OverlayShower : MonoBehaviour
     //inverte lo stato degli oggetti connessi
     private void Toggle()
     {
+       
         if (Cursor.visible)
             Cursor.lockState = CursorLockMode.None;
         else
