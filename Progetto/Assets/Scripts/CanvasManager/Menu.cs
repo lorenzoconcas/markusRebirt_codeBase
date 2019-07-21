@@ -8,10 +8,17 @@ public class Menu : MonoBehaviour
     public GameObject loadingOverlay;
     public GameObject scene;
     public GameObject scene2;
+    public int MainScene = 2;
+    public int MenuScene = 1;
+
+    void Start()
+    {
+        Cursor.visible = true;
+    }
     public void GotoMainScene()
     {
         loadingOverlay.SetActive(true);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(MainScene);
     }
     public void GotoSceneNumber(int scn)
     {
@@ -20,7 +27,7 @@ public class Menu : MonoBehaviour
     }
     public void GotoMenuScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(MenuScene);
     }
 
     public void ShowLevelSelector()

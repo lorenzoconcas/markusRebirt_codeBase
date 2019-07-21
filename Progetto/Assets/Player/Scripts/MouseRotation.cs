@@ -27,7 +27,7 @@ public class MouseRotation : MonoBehaviour
         
         transform.Rotate(0, angleHorizontal, 0);
 
-        Debug.Log(y);
+       // Debug.Log(y);
 
 
         if (y >= -1.0f && y <= 1.0f) 

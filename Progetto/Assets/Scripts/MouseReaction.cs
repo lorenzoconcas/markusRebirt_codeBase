@@ -6,16 +6,25 @@ using UnityEngine;
 public class MouseReaction : MonoBehaviour
 {
     private Color startcolor;
-    private UnityEngine.UI.Text test;
-   public  void OnMouseOver()
+    private Text tm;
+    void Start()
     {
+        tm = GetComponent<Text>();
+    }
+    void OnMouseEnter()
+    {
+        var render = GetComponent<Renderer>();
 
-        Debug.Log(GetType());
+        render.material.color = Color.red;
+
+        tm.fontStyle = FontStyle.Bold;
+    }
+    void OnMouseExit()
+    {
+        var render = GetComponent<Renderer>();
+
+        render.material.color = Color.white;
     }
 
-    public void OnMouseExit()
-    {
-       
-        Debug.Log("Mouse is no longer on GameObject.");
-    }
+    
 }
