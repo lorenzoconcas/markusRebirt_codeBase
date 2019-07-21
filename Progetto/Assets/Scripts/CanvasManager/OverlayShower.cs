@@ -26,14 +26,20 @@ public class OverlayShower : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyUp(KeyCode.Escape) && !introOverlay.activeSelf){
+        if (Input.GetKeyUp(KeyCode.Escape) && !introOverlay.activeSelf)
+        {
             Toggle();
-            ToggleGameObjectVisibilty(pauseOverlay);          
-        }       
-        else        
-         if (introOverlay.activeSelf)
-            if (Input.anyKey)               
-                  StartGame();
+            Cursor.visible = true;
+            ToggleGameObjectVisibilty(pauseOverlay);
+        }
+        else
+        {
+            if (introOverlay.activeSelf)
+                if (Input.anyKey)
+                    StartGame();
+            Cursor.visible = false;
+        }
+        
         
     }
     public void StartGame() //il tasto "Inizia" mostrato nell'introduzione del gioco

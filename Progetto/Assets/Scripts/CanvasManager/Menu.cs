@@ -19,6 +19,7 @@ public class Menu : MonoBehaviour
     {
         loadingOverlay.SetActive(true);
         SceneManager.LoadScene(MainScene);
+      
     }
     public void GotoSceneNumber(int scn)
     {

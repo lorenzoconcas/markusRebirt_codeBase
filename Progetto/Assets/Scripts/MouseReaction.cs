@@ -11,20 +11,38 @@ public class MouseReaction : MonoBehaviour
     {
         tm = GetComponent<Text>();
     }
-    void OnMouseEnter()
+    /*void OnMouseEnter()
     {
         var render = GetComponent<Renderer>();
 
         render.material.color = Color.red;
 
         tm.fontStyle = FontStyle.Bold;
+        transform.position.Set(50, 0, 0);
     }
     void OnMouseExit()
     {
         var render = GetComponent<Renderer>();
 
         render.material.color = Color.white;
+    }*/
+
+    void OnMouseDown()
+    {
+        Debug.Log("entrato");
+    }
+    void OnMouseEnter()
+    {
+        print("Enter");
+    }
+    void OnMouseUp()
+    {
+        print("up");
+    }
+    void OnMouseOver()
+    {
+        print("Over");
     }
 
-    
+
 }
