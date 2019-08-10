@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class objRotation : MonoBehaviour
-{
-    void Update()
-    {
+public class objRotation : MonoBehaviour {
+    void Update() {
         transform.Rotate(new Vector3(0f, 100f, 0f) * Time.deltaTime);
     }
 }

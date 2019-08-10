@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class platformAttach : MonoBehaviour
 {
-    public GameObject Player;
+    public string Player;
 
     /*Questo metodo fa in modo che il giocatore segua il percorso della piattaforma*/
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == Player)
+        Debug.Log(other.name);
+        if (other.name.Equals(Player))
         {
-            Player.transform.parent = transform;
+            other.transform.parent = transform;
         }
     }
 
     /*Eseguo l'opposto del precedente metodo*/
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player)
+       /* if (other.gameObject == Player)
         {
             Player.transform.parent = null;
-        }
+        }*/
     }
 }
