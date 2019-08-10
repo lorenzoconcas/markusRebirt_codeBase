@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
+public class PlayerMovement : MonoBehaviour {
     private Camera cam;
     private CharacterController controller;
     private Animator animator;
-    private Animation animation;
+    //private Animation animation;
     private bool jumping;
     private float speed;
 
@@ -16,14 +13,15 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float gravity;
 
-    public float coolDown = 0.4f; //sec prima di rigirare la cam
+    public float camCoolDown = 0.8f; //sec prima di rigirare la cam
 
     private float verticalUnity = 1.0f / 90;
     private float horizontalUnity = 1.0f / 45;
 
+    public float attackCoolDown = 0.5f;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
         cam = Camera.main;
         controller = GetComponent<CharacterController>();
         // animation = gameObject.GetComponent<Animation>();
@@ -31,67 +29,59 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    private void FixedUpdate() {
         float inputX = Input.GetAxis("Horizontal");
         float inputZ = Input.GetAxis("Vertical");
-        
+
         float speed = new Vector2(inputX, inputZ).sqrMagnitude;
-        if (speed > 0.1f)
-        {
+        if (speed > 0.1f) {
 
-
-            if (Time.time > Time.deltaTime + coolDown)
-            {
+            //rotazione di 180 del player, da migliorare
+            if (Time.time > Time.deltaTime + camCoolDown) {
                 if (inputZ < 0)
                     transform.Rotate(0, -180, 0);
-                else
-                {
+                else {
                     var rotationAngle = inputX / horizontalUnity;
                     transform.Rotate(0, rotationAngle, 0);
                 }
             }
-                       
-            
+
+
 
             Vector3 movement = inputZ * cam.transform.forward + inputX * cam.transform.right;
 
-                if (controller.isGrounded)
-                {
-                    //forse va modificato con un trigger
-                    if (jumping)
-                    {
-                        animator.Play("JumpEnd");
-                        jumping = false;
-                    }
+            if (controller.isGrounded) {
+                //forse va modificato con un trigger
+                if (jumping) {
+                    animator.Play("JumpEnd");
+                    jumping = false;
+                }
 
-                }
-                else
-                {
-                    if (inputX > 0.1 || inputZ > 0.1)
-                        animator.Play("Fall");
+            }
+            else {
+                if (inputX > 0.1 || inputZ > 0.1)
+                    animator.Play("Fall");
 
-                }
-                movement.y -= gravity * Time.deltaTime;
-                if (Input.GetButton("Jump") && !jumping)
-                {
-                    animator.Play("JumpStart");
-                    jumping = true;
-                    movement.y += jumpForce;
-                }
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetAxis("RightTrigger") > 0.4)
-                {
-                    speed = runSpeed;
-                    animator.Play("Run");
-                
-                }
-                else
-                {
-                    speed = walkSpeed;
-                    animator.Play("Walk");
-                }
-                controller.Move(movement * speed * Time.deltaTime * 10);
-            
+            }
+            movement.y -= gravity * Time.deltaTime;
+            if (Input.GetButton("Jump") && !jumping) {
+                animator.Play("JumpStart");
+                jumping = true;
+                movement.y += jumpForce;
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetAxis("RightTrigger") > 0.4) {
+                speed = runSpeed;
+                animator.Play("Run");
+
+            }
+            else {
+                speed = walkSpeed;
+                animator.Play("Walk");
+            }
+
+            controller.Move(movement * speed * Time.deltaTime * 10);
+
         }
         else
             animator.Play("Idle");
