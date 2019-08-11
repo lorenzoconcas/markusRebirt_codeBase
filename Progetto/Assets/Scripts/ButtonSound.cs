@@ -7,15 +7,25 @@ public class ButtonSound : MonoBehaviour
 {
     public AudioClip audio;
     public AudioSource aSource;
-    public void MouseClick()
+    public void MouseClick(bool check = false)
     {
-        aSource.clip = audio;
-        aSource.Play();
+        if (check) {
+            if (!CheckSaved.IsGameSaveAvaible()) {
+                Debug.Log("again..");
+            }
+            else {
+                aSource.clip = audio;
+                aSource.Play();
+            }
+
+        }
+        else {
+            aSource.clip = audio;
+            aSource.Play();
+        }
+
     }
    
-
-   
-
 }
 
 

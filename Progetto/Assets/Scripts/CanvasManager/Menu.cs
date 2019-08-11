@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public GameObject loadingOverlay;
-    public GameObject scene;
-    public GameObject scene2;
-    public int MainScene = 2;
-    public int MenuScene = 1;
+   
+    public int MainScene = 1;
+    public int MenuScene = 2;
 
     void Start()
     {
@@ -19,28 +18,24 @@ public class Menu : MonoBehaviour
     {
         loadingOverlay.SetActive(true);
         SceneManager.LoadScene(MainScene);
-      
+       
     }
+
+    
     public void GotoSceneNumber(int scn)
     {
-        loadingOverlay.SetActive(true);
-        SceneManager.LoadScene(scn);
+        if (!CheckSaved.IsGameSaveAvaible() && scn == 6) {
+            Debug.Log("Sorry no save data avaible");
+        }
+        else {
+            loadingOverlay.SetActive(true);
+            SceneManager.LoadScene(scn);
+        }
     }
     public void GotoMenuScene()
     {
         SceneManager.LoadScene(MenuScene);
     }
 
-    public void ShowLevelSelector()
-    {
-        scene2.transform.position = scene.transform.position;
-        scene.transform.position = new Vector2(-scene.transform.position.x, scene.transform.position.y);    
-    }
-    public void ShowMainMenu()
-    {
-        scene.transform.position = scene2.transform.position;
-        scene2.transform.position = new Vector2(-scene.transform.position.x, scene.transform.position.y);
-    }
-
-   
+ 
 }

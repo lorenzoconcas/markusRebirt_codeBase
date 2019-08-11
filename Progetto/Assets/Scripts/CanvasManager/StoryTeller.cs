@@ -5,16 +5,21 @@ using UnityEngine.UI;
 
 public class StoryTeller : MonoBehaviour
 {
+  
     public GameObject overlay;
-    public Text message;
-    void Start() {
-        
-        message.text = "Ciao";
-    }
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.K)) {
+    public Text messageObject;
+    public string message;
+    public Text continueButton;
+    public string continueButtonText;
+   
+    private void OnTriggerEnter(Collider other) {
+        if (other.name.Equals("Markus")) {
+            continueButton.text = continueButtonText;
+            messageObject.text = message;
+            Cursor.visible = true;
+            other.gameObject.SetActive(false);
             overlay.SetActive(!overlay.activeSelf);
-          //  message.text = "èjrlhgfowrhaoghoh";
+            Destroy(this);
         }
     }
 }

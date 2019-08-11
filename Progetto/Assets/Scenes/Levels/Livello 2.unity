@@ -2083,7 +2083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6796deead2205141af34dee181d9535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1937173154}
+  Player: Markus
 --- !u!1 &1429588722 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 609824819105107361, guid: d6eee9628748ab3438dc32cd2deeb575,
@@ -2101,8 +2101,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.40383735, y: 0.36931965, z: 0.56299806}
-  m_Center: {x: 0.004179999, y: 0.09102407, z: 0.0038869614}
+  m_Size: {x: 0.40383735, y: 0.41510472, z: 0.56299806}
+  m_Center: {x: 0.0041799988, y: 0.113916606, z: 0.003886961}
 --- !u!95 &1429588724
 Animator:
   serializedVersion: 3
@@ -2122,7 +2122,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!64 &1429588725
+--- !u!1 &1429588725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4233574594837573667, guid: d6eee9628748ab3438dc32cd2deeb575,
+    type: 3}
+  m_PrefabInstance: {fileID: 1429588719}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1429588726 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d6eee9628748ab3438dc32cd2deeb575,
+    type: 3}
+  m_PrefabInstance: {fileID: 1429588719}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1429588727
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429588725}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -6316597254723477274, guid: d6eee9628748ab3438dc32cd2deeb575, type: 3}
+--- !u!64 &1429588728
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2133,15 +2159,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: -4249654480207472114, guid: d6eee9628748ab3438dc32cd2deeb575, type: 3}
---- !u!4 &1429588726 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d6eee9628748ab3438dc32cd2deeb575,
-    type: 3}
-  m_PrefabInstance: {fileID: 1429588719}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1435289326
 GameObject:
   m_ObjectHideFlags: 0

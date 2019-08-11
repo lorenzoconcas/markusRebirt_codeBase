@@ -5,44 +5,36 @@ using UnityEngine;
 
 public class MouseReaction : MonoBehaviour
 {
-    private Color startcolor;
-    private Text tm;
+   
+    public float LBound = -46.0f;
+    public float RBound = 25.5f;
+    public float TBound = -12.0f;
+    public float BBound = 12.0f;
+    private Text text;
     void Start()
     {
-        tm = GetComponent<Text>();
-    }
-    /*void OnMouseEnter()
-    {
-        var render = GetComponent<Renderer>();
-
-        render.material.color = Color.red;
-
-        tm.fontStyle = FontStyle.Bold;
-        transform.position.Set(50, 0, 0);
-    }
-    void OnMouseExit()
-    {
-        var render = GetComponent<Renderer>();
-
-        render.material.color = Color.white;
-    }*/
-
-    void OnMouseDown()
-    {
-        Debug.Log("entrato");
-    }
-    void OnMouseEnter()
-    {
-        print("Enter");
-    }
-    void OnMouseUp()
-    {
-        print("up");
-    }
-    void OnMouseOver()
-    {
-        print("Over");
+        text = GetComponent<Text>();
     }
 
+    private void Update() {
+        Vector3 relativePos = Input.mousePosition - transform.position;
 
+        if ((relativePos.x >= LBound && relativePos.x <= RBound) && (relativePos.y >= TBound && relativePos.y <= BBound)) {
+            if (this.name.Equals("CaricaPartita")) {
+                if (CheckSaved.IsGameSaveAvaible())
+                    text.fontStyle = FontStyle.Bold;
+            }
+            else
+                text.fontStyle = FontStyle.Bold;
+      
+            if (name.Equals("Esci")) 
+                text.color = Color.Lerp(Color.white, Color.HSVToRGB(1.0f,1.0f, 0.8f), 5);
+         }        
+        else {
+            text.fontStyle = FontStyle.Normal;
+            if (name.Equals("Esci")) 
+                text.color = Color.Lerp(Color.HSVToRGB(1.0f, 1.0f, 0.8f), Color.white, 5);
+            
+        }
+    }
 }
