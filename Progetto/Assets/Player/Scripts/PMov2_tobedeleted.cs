@@ -97,10 +97,9 @@ public class PMov2 : MonoBehaviour
                        // controller.Move(movement * speed * Time.deltaTime * 10);
                         break;
                     }
-                case PlayerStatus.FALLINGAWAY: {
-                        ExitGame exeo = new ExitGame();
+                case PlayerStatus.FALLINGAWAY: {                        
                         if (transform.position.y < 350)
-                            exeo.Exit(); //codice valido per ora, richiede più testing, da modificare quando ci sarà il salvataggio
+                            ExitGame.ExitStatic(); //codice valido per ora, richiede più testing, da modificare quando ci sarà il salvataggio
                         break;
                     }
                 default: {

@@ -19,7 +19,19 @@ public class StoryTeller : MonoBehaviour
             Cursor.visible = true;
             other.gameObject.SetActive(false);
             overlay.SetActive(!overlay.activeSelf);
-            Destroy(this);
+            Destroy(this.gameObject);
         }
+    }
+
+    public void ShowMessage(string message, string cbText) {
+        continueButton.text = cbText;
+        messageObject.text = message;
+        Cursor.visible = true;
+       
+        overlay.SetActive(!overlay.activeSelf);
+       // Destroy(this);
+    }
+    public void HideMessage() {
+        overlay.SetActive(!overlay.activeSelf);
     }
 }

@@ -10,8 +10,9 @@ public class OverlayShower : MonoBehaviour {
     public GameObject player;
     public bool showIntro = !CheckSaved.IsGameSaveAvaible(); //se non ci sono salvataggi siamo alla prima partita
 
-
+    private Data dT;
     void Start() {
+        dT = GetComponentInParent<Data>();
         if (showIntro){ //da cambiare per farlo vedere solo la prima volta in accordo col salvataggio
         
             ToggleIntro(true);
@@ -39,12 +40,14 @@ public class OverlayShower : MonoBehaviour {
 
     void Update() {
 
-        if (Input.GetKeyUp(KeyCode.Escape)) {
-            if (introOverlay.activeSelf) {
-                ToggleIntro(false);
-            }
-            else {
-                TogglePause(!pauseOverlay.activeSelf);
+        if (Input.GetKeyUp(KeyCode.Escape)) {          
+            if (!dT.GetDead()) {
+                if (introOverlay.activeSelf) {
+                    ToggleIntro(false);
+                }
+                else {
+                    TogglePause(!pauseOverlay.activeSelf);
+                }
             }
         }
 
@@ -63,5 +66,9 @@ public class OverlayShower : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(true);
         }
+    }
+
+    public void ContinueGame() {
+        TogglePause(false);
     }
 }
