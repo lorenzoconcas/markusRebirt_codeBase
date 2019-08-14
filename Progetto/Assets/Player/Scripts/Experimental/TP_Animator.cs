@@ -153,8 +153,7 @@ public class TP_Animator : MonoBehaviour {
             RaycastHit hit;
             Ray downRay = new Ray(transform.position, -Vector3.up);
             if (Physics.Raycast(downRay, out hit)) {
-                float hoverError = hoverHeight - hit.distance;
-                Debug.Log(hoverError - hit.distance > 0);
+                float hoverError = hoverHeight - hit.distance;              
                 if (hoverError > 0) {
                     State = CharacterState.Falling;
                 }

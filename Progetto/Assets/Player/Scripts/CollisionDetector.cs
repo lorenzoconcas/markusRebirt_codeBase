@@ -9,11 +9,12 @@ public class CollisionDetector : MonoBehaviour
     private AudioSource aSource;
     private void Start() {
         aSource = GetComponent<AudioSource>();
-        aSource.clip = audio;
+       
     }
     public void OnTriggerEnter(Collider collider) {        
         if (collider.gameObject.tag.Contains("collectible")) {
             Destroy(collider.gameObject);
+            aSource.clip = audio;
             aSource.Play();
         }
     }

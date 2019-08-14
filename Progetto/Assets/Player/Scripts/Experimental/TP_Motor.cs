@@ -58,6 +58,7 @@ public class TP_Motor : MonoBehaviour {
 		if(TP_Controller.characterController.isGrounded) {
 			VerticalVelocity = jumpForce;
             TP_Animator.instance.State = TP_Animator.CharacterState.Jumping;
+            GetComponent<Sound>().state = TP_Animator.CharacterState.Jumping;
 		}
 	}
 
