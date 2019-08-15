@@ -5412,6 +5412,16 @@ PrefabInstance:
       propertyPath: m_DynamicOccludee
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 206eea580405a074686737c682588113,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f6e469fbbbee95047b6797dbae374228, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 206eea580405a074686737c682588113,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f6e469fbbbee95047b6797dbae374228, type: 2}
     - target: {fileID: -6860895033569716450, guid: 206eea580405a074686737c682588113,
         type: 3}
       propertyPath: m_Convex
