@@ -7,6 +7,9 @@ public class Data : MonoBehaviour
     private Vector3 lastSpawn;
     public GameObject player;
     private bool dead;
+    private int lifeCounter = 3;
+
+   
 
     public bool GetDead() {
         return dead;
@@ -14,7 +17,11 @@ public class Data : MonoBehaviour
 
     public void SetDead(bool value) {
         dead = value;
+        if (value)
+            lifeCounter--;
     }
+
+    
 
     private void Start() {
         dead = false;

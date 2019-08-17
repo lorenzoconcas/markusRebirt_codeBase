@@ -2,6 +2,7 @@
 
 public class DontDeadOpenInside : MonoBehaviour {
 
+    public string deadMessage = "Sei morto!";
     public GameObject scriptHolder;
     public float fallHeight = 250.0f;
     private StoryTeller sT;
@@ -31,13 +32,16 @@ public class DontDeadOpenInside : MonoBehaviour {
         else {
             if (transform.position.y <= fallHeight) {
 
-                sT.ShowMessage("Sei caduto nel precipizio piu' oscuro della tua mente", "Premi SPACE per riprovare");
+                sT.ShowMessage(deadMessage, "Premi SPACE per riprovare");
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                dT.SetDead(true);
+                dT.SetDead  (true);
                 transform.position = dT.GetLastSpawn();
 
             }
         }
+
+
+     
     }
 }
