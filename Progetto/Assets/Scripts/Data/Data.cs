@@ -10,7 +10,7 @@ public class Data : MonoBehaviour
     private int lifeCounter = 3;
 
    
-
+    
     public bool GetDead() {
         return dead;
     }
@@ -35,6 +35,9 @@ public class Data : MonoBehaviour
     }
     public Vector3 GetLastSpawn() {
         return lastSpawn;
+    }
+    public void SetLastSpawn(Vector3 spawn) {
+        lastSpawn = spawn;
     }
 
 }

@@ -24,7 +24,7 @@ public class Sound : MonoBehaviour
                // aSource.clip = Sounds[2];
                 break;
             case TP_Animator.CharacterState.Walking:
-                Debug.Log("ciao : "+Sounds[0]);
+             
                 aSource.clip = Sounds[0];
                 aSource.loop = true;
                 break;
