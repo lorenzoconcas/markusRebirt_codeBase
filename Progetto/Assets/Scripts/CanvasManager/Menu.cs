@@ -25,7 +25,7 @@ public class Menu : MonoBehaviour
                 preview.sprite = IMG2Sprite.instance.LoadNewSprite(path);
             }
             else {
-                preview.sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Resources/hud_background.png", typeof(Sprite));
+                preview.sprite = (Sprite) Resources.Load("Assets/Resources/hud_background.png");
             }
         }
         
