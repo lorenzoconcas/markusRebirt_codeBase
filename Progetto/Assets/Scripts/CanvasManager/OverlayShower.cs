@@ -8,7 +8,7 @@ public class OverlayShower : MonoBehaviour {
     public GameObject introOverlay;
 
     public GameObject player;
-    public bool showIntro = !CheckSaved.IsGameSaveAvaible(); //se non ci sono salvataggi siamo alla prima partita
+    public bool showIntro = !Data.SaveDataAvailable(); //se non ci sono salvataggi siamo alla prima partita
 
     private Data dT;
     void Start() {

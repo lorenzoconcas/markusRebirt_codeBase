@@ -6,14 +6,13 @@ public class CollisionDetector : MonoBehaviour
 {
     public GameObject ScriptHolder;
     public AudioClip audio;
-    private AudioSource aSource;
+    public AudioSource aSource;
     private Data dS;
-    private Renderer otherItemRender;
-
+  
     public Material checkPointMaterial;
     private void Start() {
 
-        aSource = GetComponent<AudioSource>();
+        
         dS = ScriptHolder.GetComponent<Data>();
         if (dS == null)
             Debug.LogError("Script not found");
@@ -31,6 +30,7 @@ public class CollisionDetector : MonoBehaviour
             collider.gameObject.transform.Find("Plane").gameObject.GetComponent<Renderer>().material = checkPointMaterial;
            
             dS.SetLastSpawn(transform.position);
+            dS.SaveGame();
           
         }
     }

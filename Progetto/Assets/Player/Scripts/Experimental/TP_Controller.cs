@@ -72,6 +72,7 @@ public class TP_Controller : MonoBehaviour {
 			// ... else, it is walking.
 			TP_Motor.instance.forwardSpeed = walkSpeed;
 		}
+
 	}
 
 	void HandleActionInput () {

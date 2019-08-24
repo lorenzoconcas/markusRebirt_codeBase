@@ -5,10 +5,13 @@ public class DontDeadOpenInside : MonoBehaviour {
     public string deadMessage = "Sei morto!";
     public GameObject scriptHolder;
     public float fallHeight = 250.0f;
+
+    public AudioClip DeathSound;
+    public AudioSource aSource;
     private StoryTeller sT;
     private Data dT;
 
-    private bool t; //che odio
+   // private bool t; //che odio
 
     private void Start() {
 
@@ -31,7 +34,8 @@ public class DontDeadOpenInside : MonoBehaviour {
         }
         else {
             if (transform.position.y <= fallHeight) {
-
+                aSource.clip = DeathSound;
+                aSource.Play();
                 sT.ShowMessage(deadMessage, "Premi SPACE per riprovare");
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;

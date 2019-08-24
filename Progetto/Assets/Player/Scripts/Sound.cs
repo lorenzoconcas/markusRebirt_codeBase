@@ -8,25 +8,25 @@ public class Sound : MonoBehaviour
 
     public TP_Animator animator;
     public TP_Animator.CharacterState state;
+
     private void Start() {
-    
-       
+
+        aSource.Play();
         
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
+       
         state = animator.State;
       
         switch (state) {
             case TP_Animator.CharacterState.Idle:
-               // aSource.clip = Sounds[2];
+                aSource.clip = null;
                 break;
             case TP_Animator.CharacterState.Walking:
-             
-                aSource.clip = Sounds[0];
-                aSource.loop = true;
+                Play(Sounds[0]);               
                 break;
             case TP_Animator.CharacterState.Running:
                
@@ -40,8 +40,8 @@ public class Sound : MonoBehaviour
             case TP_Animator.CharacterState.StrafingRight:
                
                 break;
-            case TP_Animator.CharacterState.Jumping:
-                aSource.clip = Sounds[0];
+            case TP_Animator.CharacterState.Jumping:               
+                Play(Sounds[1]);
                 break;
             case TP_Animator.CharacterState.Falling:
                
@@ -68,6 +68,16 @@ public class Sound : MonoBehaviour
                 break;
         }
        
-        aSource.Play();
+       
+
+    
+    }
+
+
+    private void Play(AudioClip clip) {
+        if (!(aSource.clip == clip && aSource.isPlaying))          
+            aSource.clip = clip;
+        if (!aSource.isPlaying)
+            aSource.Play();
     }
 }

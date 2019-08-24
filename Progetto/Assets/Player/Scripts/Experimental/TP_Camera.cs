@@ -13,8 +13,12 @@ public class TP_Camera : MonoBehaviour {
 	public float minDistance = 0.5f;									// Minimum distance the camera is allowed to be close to the pivot point.
 	public float maxDistance = 10f;										// Maximum distance the camera is allowed to be further to the pivot point.
 	public float minY = -30f;											// The Y lower limit of the camera.
-	public float maxY = 60f;											// The Y upper limit of the camera.
-	public bool invertX = false;										// Whether the player wants X axis inverted.
+	public float maxY = 60f;                                            // The Y upper limit of the camera.
+
+   /* public float maxL = -30f;
+    public float maxR = 60f;*/
+
+    public bool invertX = false;										// Whether the player wants X axis inverted.
 	public bool invertY = false;										// Whether the player wants Y axis inverted.
 																		//
 	[Range(0f,10f)] public float x_mouseSensitivity = 5f;				// The sensitivity of the X axis input.
@@ -109,7 +113,9 @@ public class TP_Camera : MonoBehaviour {
 		// Limit the Y rotation between the specified min and max limits.
 		mouseY = TP_Helper.ClampAngle(mouseY,minY,maxY);
 
-		if(Input.GetKeyDown(KeyCode.F)){
+        //mouseX = TP_Helper.ClampAngle(mouseX, maxL, maxR);
+
+        if (Input.GetKeyDown(KeyCode.F)){
 			smoothDamp = !smoothDamp;
 			print ("SmoothDamp: " + smoothDamp);
 		}

@@ -21,7 +21,7 @@ public class MouseReaction : MonoBehaviour
 
         if ((relativePos.x >= LBound && relativePos.x <= RBound) && (relativePos.y >= TBound && relativePos.y <= BBound)) {
             if (this.name.Equals("CaricaPartita")) {
-                if (CheckSaved.IsGameSaveAvaible())
+                if (Data.SaveDataAvailable())
                     text.fontStyle = FontStyle.Bold;
             }
             else
