@@ -33,7 +33,7 @@ public class TP_Animator : MonoBehaviour {
         Using,
         Dead,
         Attacking,
-        Victorious,
+        Defense,
         ActionLocked
     }
 
@@ -47,13 +47,16 @@ public class TP_Animator : MonoBehaviour {
 
     #region PRIVATE_VARIABLES
 
-    
+
     private Animator animator;
 
-    //  public float FallingTimer = 0.5f;
-    private float Timer = 0.0f;
-    private float T2 = 0.0f;
+    public float runSpeed = 25.0f;
+
+    private float[] Timers = { 0.0f, 0.0f, 0.0f };
+
+    public float AttackAnimationSpeed = 0.9f;
     public float acendingTime = 2.0f;
+
     #endregion
 
     #region PUBLIC_PROPERTIES
@@ -143,17 +146,16 @@ public class TP_Animator : MonoBehaviour {
     #region PRIVATE_FUNCTIONS
 
     void DetermineCurrentCharacterState() {
+        
         if (State == CharacterState.Dead) {
             return;
         }
 
         if (!TP_Controller.characterController.isGrounded) {
-
-
             RaycastHit hit;
             Ray downRay = new Ray(transform.position, -Vector3.up);
             if (Physics.Raycast(downRay, out hit)) {
-                float hoverError = hoverHeight - hit.distance;              
+                float hoverError = hoverHeight - hit.distance;
                 if (hoverError > 0) {
                     State = CharacterState.Falling;
                 }
@@ -161,14 +163,13 @@ public class TP_Animator : MonoBehaviour {
                     State = CharacterState.Walking;
                 }
             }
-
             else {
-                Debug.Log("Not walking nor running");
-                Timer += Time.deltaTime;
+
+                Timers[0] += Time.deltaTime;
 
                 if (State == CharacterState.Jumping) { //essenzialmente lasciamo finire l'animazione poi cadiamo se stiamo saltando
-                    if (Timer >= acendingTime) {
-                        Timer = Timer - acendingTime;
+                    if (Timers[0] >= acendingTime) {
+                        Timers[0] = Timers[0] - acendingTime;
                         State = CharacterState.Falling;
                     }
                 }
@@ -178,17 +179,40 @@ public class TP_Animator : MonoBehaviour {
                 }
             }
         }
-        else {
+        else {//isGrounded 
             if (State == CharacterState.Falling)
                 State = CharacterState.Landing;
-            else
+            if (State == CharacterState.Landing)
                 State = CharacterState.Idle;
+
+            Timers[1] += Time.deltaTime;
+
+            if(State == CharacterState.Attacking) {
+                if(Timers[1] >= AttackAnimationSpeed) {
+                    Timers[1] -= AttackAnimationSpeed;
+                    State = CharacterState.Idle;
+                }
+            }else if (Input.GetMouseButton(1)) {
+
+                State = CharacterState.Defense;
+            }
+            else if (Input.GetMouseButton(0)) {
+                //Timers[1] += Time.deltaTime;
+                if(State != CharacterState.Attacking)
+               // Timers[1] -= AttackAnimationSpeed;
+                State = CharacterState.Attacking;
+            }
+            else {
+                    State = CharacterState.Idle;
+            }
+
+
         }
 
         if (State != CharacterState.Falling && State != CharacterState.Jumping && State != CharacterState.Landing
             && State != CharacterState.Using && State != CharacterState.Climbing && State != CharacterState.Sliding
-            && State != CharacterState.Attacking && State != CharacterState.Victorious) {
-
+            && State != CharacterState.Attacking && State != CharacterState.Defense) {
+          
             switch (MoveDirection) {
                 case Direction.Forward:
                     State = CharacterState.Walking;
@@ -221,12 +245,15 @@ public class TP_Animator : MonoBehaviour {
 
         }
 
-        if (State == CharacterState.Walking && TP_Motor.instance.forwardSpeed == 5) {
+        if (State == CharacterState.Walking && TP_Motor.instance.forwardSpeed == runSpeed) {
+           
             State = CharacterState.Running;
+           
         }
     }
 
     void ProcessCurrentCharacterState() {
+   
         switch (State) {
             case CharacterState.Idle:
                 Idle();
@@ -259,15 +286,15 @@ public class TP_Animator : MonoBehaviour {
                 break;
             case CharacterState.Sliding:
                 break;
-            case CharacterState.Using:
-                Using();
-                break;
+
             case CharacterState.Attacking:
                 Attacking();
                 break;
-            case CharacterState.Victorious:
-                Victorious();
+            case CharacterState.Defense:
+               
+                Defending();
                 break;
+
             case CharacterState.Dead:
                 break;
             case CharacterState.ActionLocked:
@@ -278,22 +305,21 @@ public class TP_Animator : MonoBehaviour {
     #endregion
 
     #region CHARACTER_STATE_FUNCTIONS
-
+    //funzioni private
     void Idle() {
-        //TODO: Implement me!
-        animator.Play("Idle");
-        // anim.CrossFade("Idle");
-    }
 
+        animator.Play("Idle");
+
+    }
+   
     void Walking() {
-        animator.Play("Run");
-        //anim.CrossFade("WalkingLoop");
+        animator.Play("Walk");
+
     }
 
     void Running() {
-        //TODO: Implement me!
-        //anim.CrossFade("RunningLoop");
-        animator.Play("Walk");
+
+        animator.Play("Run");
     }
 
     void WalkingBackwards() {
@@ -318,56 +344,33 @@ public class TP_Animator : MonoBehaviour {
         //TODO: Implement me!
     }
 
-    void Using() {
-        //TODO: Implement me!
-
-        //if(!anim.isPlaying){
-        State = CharacterState.Idle;
-        animator.Play("Idle");
-        //anim.CrossFade("Idle");
-        //}
-
+    void Defending() {
+        animator.Play("Defend");
     }
 
-    void Victorious() {
-        //if(!anim.isPlaying) {
+ /*   void Victorious() {
+
         State = CharacterState.Idle;
         animator.Play("Idle");
-        //anim.CrossFade("Idle");
-        //}
-    }
+
+    }*/
 
     void Attacking() {
-        /*if(!anim.isPlaying) {
-			
-			anim.CrossFade("Idle");
-		}*/
-        State = CharacterState.Idle;
-        animator.Play("Idle");
+        animator.Play("Attack");   
+       
     }
 
     #endregion
 
     #region START_ACTION_METHOD
 
-    public void Use() {
-        /*	State = CharacterState.Using;
-            //TODO: Implement me!
-            anim.CrossFade("charge");*/
+    public void Defend() {
+        State = CharacterState.Defense;
+        animator.Play("Defend");
     }
-
     public void Attack() {
         State = CharacterState.Attacking;
-        //TODO: Implement me!
         animator.Play("Attack");
-        //anim.CrossFade("attack");
     }
-
-    public void Victory() {
-        State = CharacterState.Victorious;
-        //TODO: Implement me!
-        //anim.CrossFade("victory");
+        #endregion
     }
-
-    #endregion
-}

@@ -7,13 +7,17 @@ public class OverlayShower : MonoBehaviour {
     public GameObject pauseOverlay;
     public GameObject introOverlay;
 
+    public GameObject enemiesContainer;
     public GameObject player;
     public bool showIntro = !Data.SaveDataAvailable(); //se non ci sono salvataggi siamo alla prima partita
 
     private Data dT;
     void Start() {
         dT = GetComponentInParent<Data>();
-        if (showIntro){ //da cambiare per farlo vedere solo la prima volta in accordo col salvataggio
+        if (GameObject.Find("DataLoader") != null) {
+            showIntro = false;
+        }
+        if (showIntro){ 
         
             ToggleIntro(true);
         }
@@ -29,12 +33,14 @@ public class OverlayShower : MonoBehaviour {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(false);
+            GameObject.Find("Enemies").SetActive(false); //da rimuovere
         }
         else {
             introOverlay.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(true);
+          
         }
     }
 
@@ -59,15 +65,29 @@ public class OverlayShower : MonoBehaviour {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(false);
+            try {
+               enemiesContainer.SetActive(false);
+             
+            }
+            catch (Exception e){
+                Debug.Log(e.ToString());
+            }
         }
         else {
             pauseOverlay.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(true);
+            try {
+                enemiesContainer.SetActive(true);
+            }
+            catch (Exception e) {
+                Debug.Log(e.ToString());
+            }
+
         }
     }
-
+    //serve per il tasto continua nel menu pausa
     public void ContinueGame() {
         TogglePause(false);
     }

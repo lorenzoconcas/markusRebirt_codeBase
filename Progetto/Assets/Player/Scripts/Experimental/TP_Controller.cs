@@ -1,113 +1,108 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (CharacterController))]
-[RequireComponent (typeof (TP_Motor))]
-[RequireComponent (typeof (TP_Animator))]
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(TP_Motor))]
+[RequireComponent(typeof(TP_Animator))]
 public class TP_Controller : MonoBehaviour {
 
-	#region PUBLIC_VARIABLES
+    #region PUBLIC_VARIABLES
 
-	public static CharacterController characterController;			// Reference to the CharacterController componenet.
+    public static CharacterController characterController;			// Reference to the CharacterController componenet.
     public float runSpeed = 10.0f;
     public float walkSpeed = 5.0f;
-	#endregion 
+    #endregion
 
-	#region PRIVATE_VARIABLES
+    #region PRIVATE_VARIABLES
 
-	const string TAG = "TP_Controller";								// TAG for debugging purposes.
+    const string TAG = "TP_Controller";                             // TAG for debugging purposes.
 
-	#endregion
+    #endregion
 
-	#region UNITY_FUNCTIONS
+    #region UNITY_FUNCTIONS
 
-	// Use this for initialization
-	void Awake () {
-		characterController = GetComponent<CharacterController> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(Camera.main == null){
-			Debug.LogError(TAG + " No main camera in scene!");
-			return;
-		}
-		// Read input.
-		GetLocomotionInput ();
-		// Handle action input.
-		HandleActionInput ();
-		// Move the character.
-		TP_Motor.instance.UpdateMotor();
-	}
+    // Use this for initialization
+    void Awake() {
+        characterController = GetComponent<CharacterController>();
+    }
 
-	#endregion
+    // Update is called once per frame
+    void Update() {
+        if (Camera.main == null) {
+            //Debug.LogError(TAG + " No main camera in scene!");
+            return;
+        }
+        // Read input.
+        GetLocomotionInput();
+        // Handle action input.
+        HandleActionInput();
+        // Move the character.
+        TP_Motor.instance.UpdateMotor();
+    }
 
-	#region PRIVATE_FUNCTIONS
+    #endregion
 
-	// Function to read the character input and update movement in TP_Motor class.
-	void GetLocomotionInput () {
-		TP_Motor.instance.VerticalVelocity = TP_Motor.instance.MoveVector.y;
+    #region PRIVATE_FUNCTIONS
 
-		// First initialise MoveVector to (0,0,0).
-		TP_Motor.instance.MoveVector = Vector3.zero;
-		// Read Horizontal Axis.
-		float h = Input.GetAxis("Horizontal");
-		// Read Vertical Axis.
-		float v = Input.GetAxis("Vertical");
+    // Function to read the character input and update movement in TP_Motor class.
+    void GetLocomotionInput() {
+        TP_Motor.instance.VerticalVelocity = TP_Motor.instance.MoveVector.y;
 
-		// Add read values to MoveVector.
-		if(v > 0.1 || v < -0.1)
-			TP_Motor.instance.MoveVector += new Vector3(0, 0, v);
+        // First initialise MoveVector to (0,0,0).
+        TP_Motor.instance.MoveVector = Vector3.zero;
+        // Read Horizontal Axis.
+        float h = Input.GetAxis("Horizontal");
+        // Read Vertical Axis.
+        float v = Input.GetAxis("Vertical");
 
-		if (h > 0.1 || h < -0.1)
-			TP_Motor.instance.MoveVector += new Vector3(h, 0, 0);
+        // Add read values to MoveVector.
+        if (v > 0.1 || v < -0.1)
+            TP_Motor.instance.MoveVector += new Vector3(0, 0, v);
 
-		TP_Animator.instance.DetermineCurrentMoveDirection ();
+        if (h > 0.1 || h < -0.1)
+            TP_Motor.instance.MoveVector += new Vector3(h, 0, 0);
 
-		// If the player is pressing left shit ...
-		if(Input.GetKey(KeyCode.LeftShift)){
-			// ... then the character is running.
-			TP_Motor.instance.forwardSpeed = runSpeed;
-		} else if (Input.GetKeyUp(KeyCode.LeftShift)){
-			// ... else, it is walking.
-			TP_Motor.instance.forwardSpeed = walkSpeed;
-		}
+        TP_Animator.instance.DetermineCurrentMoveDirection();
 
-	}
+        // If the player is pressing left shit ...
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            // ... then the character is running.
+            TP_Motor.instance.forwardSpeed = runSpeed;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift)) {
+            // ... else, it is walking.
+            TP_Motor.instance.forwardSpeed = walkSpeed;
+        }
 
-	void HandleActionInput () {
-		// If the player has pressed the jump button then jump!
-		if(Input.GetButtonDown("Jump")) {
-			Jump ();
-		}
+    }
+
+    void HandleActionInput() {
+        // If the player has pressed the jump button then jump!
+        if (Input.GetButtonDown("Jump")) {
+            Jump();
+        }
         /*
 		if(Input.GetKey(KeyCode.E)) {
 			Use ();
 		}*/
 
-		
 
-		if(Input.GetButtonDown("Fire1")) {
-			Attack ();
-		}
-	}
+    }
 
-	void Jump () {
-		// Call the motor to jump!
-		TP_Motor.instance.Jump ();
-	}
+    void Jump() {
+        // Call the motor to jump!
+        TP_Motor.instance.Jump();
+    }
 
-	void Use () {
-		TP_Animator.instance.Use ();
-	}
 
-	void RaiseHand () {
-		TP_Animator.instance.Victory ();
-	}
 
-	void Attack () {
-		TP_Animator.instance.Attack ();
-	}
+    void Defense() {
+        TP_Animator.instance.Defend();
+    }
 
-	#endregion
+    void Attack() {
+        TP_Animator.instance.Attack();
+    }
+
+    #endregion
 }

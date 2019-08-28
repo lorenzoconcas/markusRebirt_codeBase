@@ -59,9 +59,7 @@ public class Sound : MonoBehaviour
             case TP_Animator.CharacterState.Attacking:
                
                 break;
-            case TP_Animator.CharacterState.Victorious:
-                
-                break;
+         
             case TP_Animator.CharacterState.Dead:
                 break;
             case TP_Animator.CharacterState.ActionLocked:

@@ -98,7 +98,7 @@ public class TP_Motor : MonoBehaviour {
 		ApplyGravity ();
 
 		// Rotate the character if it's moving diagonally.
-//		RotateCharacter ();
+	//	RotateCharacter ();
 		// Move the character in WorldSpace.
 		TP_Controller.characterController.Move(MoveVector * Time.deltaTime);
 	}
