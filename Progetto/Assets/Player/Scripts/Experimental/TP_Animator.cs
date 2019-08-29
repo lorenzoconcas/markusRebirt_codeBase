@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(TP_Controller))]
@@ -28,8 +27,7 @@ public class TP_Animator : MonoBehaviour {
         Jumping,
         Falling,
         Landing,
-        Climbing,
-        Sliding,
+        Power1,
         Using,
         Dead,
         Attacking,
@@ -41,8 +39,7 @@ public class TP_Animator : MonoBehaviour {
 
     public static TP_Animator instance;
 
-    public float hoverHeight = 1.0f;
-
+ 
     #endregion
 
     #region PRIVATE_VARIABLES
@@ -54,13 +51,24 @@ public class TP_Animator : MonoBehaviour {
 
     private float[] Timers = { 0.0f, 0.0f, 0.0f };
 
-    public float AttackAnimationSpeed = 0.9f;
+    public float FallHeight = 0.72f; //altezza oltre la quale è considerata come una caduta 
+
+
+    #endregion
+    [Header("Tempo di salita")]
     public float acendingTime = 2.0f;
+    #region ANIMATIONS_SPEED
+
+    [Header("Velocità Animazioni")]
+    //questi valori si trovano nell'inspector
+    public float NormalAttack = 1.292f; 
+    public float RotoAttack = 1.1f;
 
     #endregion
 
-    #region PUBLIC_PROPERTIES
 
+
+    #region PUBLIC_PROPERTIES
     public Direction MoveDirection { get; set; }            // Property holds the movement direction.
     public CharacterState State { get; set; }               // Property holds the animation state.
 
@@ -76,6 +84,7 @@ public class TP_Animator : MonoBehaviour {
 
         //anim = GetComponent<Animation>();
         animator = GetComponent<Animator>();
+        State = CharacterState.Idle;
     }
 
     // Update is called once per frame
@@ -146,155 +155,155 @@ public class TP_Animator : MonoBehaviour {
     #region PRIVATE_FUNCTIONS
 
     void DetermineCurrentCharacterState() {
-        
+
         if (State == CharacterState.Dead) {
             return;
         }
+      
 
-        if (!TP_Controller.characterController.isGrounded) {
-            RaycastHit hit;
-            Ray downRay = new Ray(transform.position, -Vector3.up);
-            if (Physics.Raycast(downRay, out hit)) {
-                float hoverError = hoverHeight - hit.distance;
-                if (hoverError > 0) {
+        if (!TP_Controller.characterController.isGrounded) {            
+            /*
+             * Controlliamo che il player abbia davver fatto un salto o stia cadendo
+             * è necessario questo controllo per le situazioni come il ponte
+             * per farlo utilizziamo un raycast che calcola la distanza massima oltre la quale
+             * viene considerata come una caduta
+             */
+            Ray downRay = new Ray(transform.position, Vector3.down);
+            /*
+             * controlliamo che il raycast intereschi con un collider
+             * ossiamo semplicemente se tocca qualcosa
+             * il raggio è puntato verso il basso rispetto al transform del player
+             * se tocca qualcosa controlliamo che la distanza dai piedi del player 
+             * all'oggetto sia entro un certo valore
+             * in caso sia maggiore stiamo cadendo
+             * in caso negativo stiamo ancora camminando
+            */
+
+            if (Physics.Raycast(downRay, out RaycastHit hit)) {
+                if (hit.distance > FallHeight) {                   
                     State = CharacterState.Falling;
                 }
                 else {
-                    State = CharacterState.Walking;
-                }
-            }
-            else {
+                    /*                
+                     * Se ho saltalto aspettiamo che finisca l'animazione del salto
+                     * e poi imposto lo stato su caduta      
+                     * altrimenti lascio lo stato attuale
+                     */
 
-                Timers[0] += Time.deltaTime;
+                    Timers[0] += Time.deltaTime;
 
-                if (State == CharacterState.Jumping) { //essenzialmente lasciamo finire l'animazione poi cadiamo se stiamo saltando
-                    if (Timers[0] >= acendingTime) {
-                        Timers[0] = Timers[0] - acendingTime;
-                        State = CharacterState.Falling;
+                    if (State == CharacterState.Jumping) {
+                        if (Timers[0] >= acendingTime) {
+                            Timers[0] = Timers[0] - acendingTime;
+                            State = CharacterState.Falling;
+                        }
                     }
                 }
-
-                else {//altrimenti cadiamo subito
-                    State = CharacterState.Falling;
-                }
             }
-        }
-        else {//isGrounded 
-            if (State == CharacterState.Falling)
-                State = CharacterState.Landing;
-            if (State == CharacterState.Landing)
-                State = CharacterState.Idle;
-
-            Timers[1] += Time.deltaTime;
-
-            if(State == CharacterState.Attacking) {
-                if(Timers[1] >= AttackAnimationSpeed) {
-                    Timers[1] -= AttackAnimationSpeed;
-                    State = CharacterState.Idle;
-                }
-            }else if (Input.GetMouseButton(1)) {
-
-                State = CharacterState.Defense;
-            }
-            else if (Input.GetMouseButton(0)) {
-                //Timers[1] += Time.deltaTime;
-                if(State != CharacterState.Attacking)
-               // Timers[1] -= AttackAnimationSpeed;
-                State = CharacterState.Attacking;
-            }
+            /*
+             * Se non trovo niente col raycast significa che o sto cadendo
+             * nel vuoto, imposto perciò subito lo stato di caduta
+             * Nota : si potrebbe implementare stato morte
+             */
             else {
-                    State = CharacterState.Idle;
+                State = CharacterState.Falling;
             }
-
-
         }
-
-        if (State != CharacterState.Falling && State != CharacterState.Jumping && State != CharacterState.Landing
-            && State != CharacterState.Using && State != CharacterState.Climbing && State != CharacterState.Sliding
-            && State != CharacterState.Attacking && State != CharacterState.Defense) {
-          
-            switch (MoveDirection) {
-                case Direction.Forward:
-                    State = CharacterState.Walking;
+        else {
+            //alcuni casi hanno bisogno di una gestione specifica per ciò usiamo lo switch
+            Timers[1] += Time.deltaTime;
+            switch (State) {
+                case CharacterState.Falling://se sto cadendo e sono ground atterro
+                    State = CharacterState.Landing;
                     break;
-                case Direction.LeftForward:
-                    State = CharacterState.Walking;
-                    break;
-                case Direction.RightForward:
-                    State = CharacterState.Walking;
-                    break;
-                case Direction.Backward:
-                    State = CharacterState.Walking;
-                    break;
-                case Direction.LeftBackward:
-                    State = CharacterState.WalkingBackwards;
-                    break;
-                case Direction.RightBackward:
-                    State = CharacterState.WalkingBackwards;
-                    break;
-                case Direction.Left:
-                    State = CharacterState.StrafingLeft;
-                    break;
-                case Direction.Right:
-                    State = CharacterState.StrafingRight;
-                    break;
-                case Direction.Stationary:
+                case CharacterState.Landing://se sono atterrato vado in idle
                     State = CharacterState.Idle;
                     break;
+                case CharacterState.Power1:
+                    if (Timers[1] >= RotoAttack) {
+                        //resettiamo il tempo se l'animazione d'attacco è finita
+                        Timers[1] -= RotoAttack;
+                        State = CharacterState.Idle;
+                    }
+                    break;
+                case CharacterState.Attacking:
+                    if (Timers[1] >= NormalAttack) {
+                        //resettiamo il tempo se l'animazione d'attacco è finita
+                        Timers[1] -= NormalAttack;
+                        State = CharacterState.Idle;
+                    }
+
+                    break;
+               
+                default:
+                    //controllo che il player non sia in difesa
+                    if (!Input.GetMouseButton(1))
+                        switch (MoveDirection) {
+                            case Direction.Forward:
+                            case Direction.LeftForward:
+                            case Direction.RightForward:
+                            case Direction.Backward:
+                                State = CharacterState.Walking;
+                                break;
+                            case Direction.LeftBackward:
+                            case Direction.RightBackward:
+                                State = CharacterState.WalkingBackwards;
+                                break;
+                            case Direction.Left:
+                                State = CharacterState.StrafingLeft;
+                                break;
+                            case Direction.Right:
+                                State = CharacterState.StrafingRight;
+                                break;
+                            case Direction.Stationary:
+                                State = CharacterState.Idle;
+                                break;
+                        }
+                   
+                    if (State == CharacterState.Walking && TP_Motor.instance.forwardSpeed == runSpeed)
+                        State = CharacterState.Running;
+                    break;
             }
-
         }
 
-        if (State == CharacterState.Walking && TP_Motor.instance.forwardSpeed == runSpeed) {
-           
-            State = CharacterState.Running;
-           
-        }
     }
 
     void ProcessCurrentCharacterState() {
-   
+
         switch (State) {
             case CharacterState.Idle:
-                Idle();
+                animator.Play("Idle");               
                 break;
             case CharacterState.Walking:
-                Walking();
+                animator.Play("Walk");                
                 break;
             case CharacterState.Running:
-                Running();
+                animator.Play("Run");
                 break;
             case CharacterState.WalkingBackwards:
-                WalkingBackwards();
                 break;
-            case CharacterState.StrafingLeft:
-                StrafingLeft();
-                break;
-            case CharacterState.StrafingRight:
-                StrafingRight();
-                break;
+
             case CharacterState.Jumping:
-                Jumping();
+                animator.Play("JumpStart");
                 break;
             case CharacterState.Falling:
-                Falling();
+                animator.Play("Fall");
+
                 break;
             case CharacterState.Landing:
-                Landing();
+                animator.Play("JumpEnd");
+                //Landing();
                 break;
-            case CharacterState.Climbing:
+            case CharacterState.Power1:
+                animator.Play("RotoAttack");
                 break;
-            case CharacterState.Sliding:
-                break;
-
+     
             case CharacterState.Attacking:
-                Attacking();
+                animator.Play("Attack");
                 break;
             case CharacterState.Defense:
-               
-                Defending();
+                animator.Play("Defend");
                 break;
-
             case CharacterState.Dead:
                 break;
             case CharacterState.ActionLocked:
@@ -304,73 +313,18 @@ public class TP_Animator : MonoBehaviour {
 
     #endregion
 
-    #region CHARACTER_STATE_FUNCTIONS
-    //funzioni private
-    void Idle() {
 
-        animator.Play("Idle");
-
-    }
-   
-    void Walking() {
-        animator.Play("Walk");
-
-    }
-
-    void Running() {
-
-        animator.Play("Run");
-    }
-
-    void WalkingBackwards() {
-        //TODO: Implement me!
-    }
-
-    void Jumping() {
-        animator.Play("JumpStart");
-    }
-
-    void Falling() {
-        animator.Play("Fall");
-    }
-    void Landing() {
-        animator.Play("JumpEnd");
-    }
-
-    void StrafingLeft() {
-        //TODO: Implement me!
-    }
-    void StrafingRight() {
-        //TODO: Implement me!
-    }
-
-    void Defending() {
-        animator.Play("Defend");
-    }
-
- /*   void Victorious() {
-
-        State = CharacterState.Idle;
-        animator.Play("Idle");
-
-    }*/
-
-    void Attacking() {
-        animator.Play("Attack");   
-       
-    }
-
-    #endregion
 
     #region START_ACTION_METHOD
 
     public void Defend() {
-        State = CharacterState.Defense;
-        animator.Play("Defend");
+        State = CharacterState.Defense;     
     }
     public void Attack() {
-        State = CharacterState.Attacking;
-        animator.Play("Attack");
+        State = CharacterState.Attacking;  
     }
-        #endregion
+    public void RotatingAttack() {      
+        State = CharacterState.Power1;
     }
+    #endregion
+}

@@ -49,10 +49,10 @@ public class Sound : MonoBehaviour
             case TP_Animator.CharacterState.Landing:
                
                 break;
-            case TP_Animator.CharacterState.Climbing:
+          /*  case TP_Animator.CharacterState.Climbing:
                 break;
             case TP_Animator.CharacterState.Sliding:
-                break;
+                break;*/
             case TP_Animator.CharacterState.Using:
                 
                 break;

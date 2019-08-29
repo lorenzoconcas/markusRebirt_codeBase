@@ -86,6 +86,18 @@ public class TP_Controller : MonoBehaviour {
 			Use ();
 		}*/
 
+        if (Input.GetMouseButton(0)) {
+            Debug.Log("SX");
+            Attack();
+        }
+        else if (Input.GetMouseButton(1)) {
+            Debug.Log("DX");
+            Defense();
+        }
+        else if (Input.GetMouseButton(2)) { //un solo power coinvolge l'animazione
+            Debug.Log("Centrale");
+          
+        }
 
     }
 
@@ -94,7 +106,9 @@ public class TP_Controller : MonoBehaviour {
         TP_Motor.instance.Jump();
     }
 
-
+    void RotoAttack() {
+        TP_Animator.instance.RotatingAttack();
+    }
 
     void Defense() {
         TP_Animator.instance.Defend();
