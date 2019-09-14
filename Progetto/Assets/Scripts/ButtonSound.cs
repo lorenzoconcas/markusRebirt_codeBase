@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonSound : MonoBehaviour
-{
+public class ButtonSound : MonoBehaviour {
     public AudioClip audio;
     public AudioSource aSource;
-    public void MouseClick(bool check = false)
-    {
+    public void MouseClick(bool check = false) {
         if (check) {
-            if (Data.SaveDataAvailable()) {           
+            if (Data.SaveDataAvailable()) {
                 aSource.clip = audio;
                 aSource.Play();
             }
@@ -22,7 +20,7 @@ public class ButtonSound : MonoBehaviour
         }
 
     }
-   
+
 }
 
 

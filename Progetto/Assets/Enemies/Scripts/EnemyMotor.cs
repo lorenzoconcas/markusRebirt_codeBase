@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMotor : MonoBehaviour
-{
-
-    public enum Status { WALKING, ATTACKING, IDLE}
+public class EnemyMotor : MonoBehaviour {
+    /*
+     * Utilizziamo uno script generico e un animator specifico
+     */
+    public enum Status { WALKING, ATTACKING, IDLE }
 
     private GameObject player;
     private float rotationSpeed = 10f;
     private float moveSpeed = 3;
     private CharacterController cCOntroller;
 
-    private float distance; 
+    private float distance;
     public float triggerDistance = 10.0f;
     public float attackDistance = 4.0f;
-    public Status status;  
+    public Status status;
 
-    void Start()
-    {
+    void Start() {
         cCOntroller = GetComponent<CharacterController>();
         player = GameObject.FindGameObjectWithTag("Player");
         status = Status.IDLE;
@@ -27,26 +27,25 @@ public class EnemyMotor : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         distance = Vector3.Distance(transform.position, player.transform.position);
         //Debug.Log("Distance from player "+ distance);
         status = Status.IDLE;
         if (distance <= triggerDistance) {
             transform.rotation = Quaternion.Slerp(transform.rotation,
-                 Quaternion.LookRotation(player.transform.position - transform.position), 
+                 Quaternion.LookRotation(player.transform.position - transform.position),
                  rotationSpeed * Time.deltaTime);
 
-            if(distance > attackDistance) {
+            if (distance > attackDistance) {
                 status = Status.WALKING;
                 cCOntroller.Move(transform.forward * moveSpeed * Time.deltaTime);
             }
-            else{// if(distance <= attackDistance) {
+            else {// if(distance <= attackDistance) {
                 status = Status.ATTACKING;
             }
         }
-      
+
     }
-    
+
 
 }

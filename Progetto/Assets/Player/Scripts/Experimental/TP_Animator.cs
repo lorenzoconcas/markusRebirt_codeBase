@@ -39,7 +39,7 @@ public class TP_Animator : MonoBehaviour {
 
     public static TP_Animator instance;
 
- 
+
     #endregion
 
     #region PRIVATE_VARIABLES
@@ -49,7 +49,7 @@ public class TP_Animator : MonoBehaviour {
 
     public float runSpeed = 25.0f;
 
-    private float[] Timers = { 0.0f, 0.0f, 0.0f };
+    private float[] Timers = { 0.0f, 0.0f };
 
     public float FallHeight = 0.72f; //altezza oltre la quale è considerata come una caduta 
 
@@ -60,9 +60,9 @@ public class TP_Animator : MonoBehaviour {
     #region ANIMATIONS_SPEED
 
     [Header("Velocità Animazioni")]
-    //questi valori si trovano nell'inspector
-    public float NormalAttack = 1.292f; 
-    public float RotoAttack = 1.1f;
+    //questi valori vanno regolati ad occhio per ora
+    public float NormalAttack = 2.0f;
+    public float RotoAttack = 5.0f;
 
     #endregion
 
@@ -159,9 +159,9 @@ public class TP_Animator : MonoBehaviour {
         if (State == CharacterState.Dead) {
             return;
         }
-      
 
-        if (!TP_Controller.characterController.isGrounded) {            
+
+        if (!TP_Controller.characterController.isGrounded) {
             /*
              * Controlliamo che il player abbia davver fatto un salto o stia cadendo
              * è necessario questo controllo per le situazioni come il ponte
@@ -180,7 +180,7 @@ public class TP_Animator : MonoBehaviour {
             */
 
             if (Physics.Raycast(downRay, out RaycastHit hit)) {
-                if (hit.distance > FallHeight) {                   
+                if (hit.distance > FallHeight) {
                     State = CharacterState.Falling;
                 }
                 else {
@@ -234,7 +234,7 @@ public class TP_Animator : MonoBehaviour {
                     }
 
                     break;
-               
+
                 default:
                     //controllo che il player non sia in difesa
                     if (!Input.GetMouseButton(1))
@@ -259,7 +259,7 @@ public class TP_Animator : MonoBehaviour {
                                 State = CharacterState.Idle;
                                 break;
                         }
-                   
+
                     if (State == CharacterState.Walking && TP_Motor.instance.forwardSpeed == runSpeed)
                         State = CharacterState.Running;
                     break;
@@ -272,10 +272,10 @@ public class TP_Animator : MonoBehaviour {
 
         switch (State) {
             case CharacterState.Idle:
-                animator.Play("Idle");               
+                animator.Play("Idle");
                 break;
             case CharacterState.Walking:
-                animator.Play("Walk");                
+                animator.Play("Walk");
                 break;
             case CharacterState.Running:
                 animator.Play("Run");
@@ -297,7 +297,7 @@ public class TP_Animator : MonoBehaviour {
             case CharacterState.Power1:
                 animator.Play("RotoAttack");
                 break;
-     
+
             case CharacterState.Attacking:
                 animator.Play("Attack");
                 break;
@@ -318,12 +318,12 @@ public class TP_Animator : MonoBehaviour {
     #region START_ACTION_METHOD
 
     public void Defend() {
-        State = CharacterState.Defense;     
+        State = CharacterState.Defense;
     }
     public void Attack() {
-        State = CharacterState.Attacking;  
+        State = CharacterState.Attacking;
     }
-    public void RotatingAttack() {      
+    public void RotatingAttack() {
         State = CharacterState.Power1;
     }
     #endregion

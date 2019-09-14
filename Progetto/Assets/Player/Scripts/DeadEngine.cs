@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class DeadEngine: MonoBehaviour {
+public class DeadEngine : MonoBehaviour {
 
     public string deadMessage = "Sei morto!";
-    
+
     public float fallHeight = 250.0f;
 
     public AudioClip DeathSound;
@@ -15,7 +15,7 @@ public class DeadEngine: MonoBehaviour {
     private void Start() {
 
         sT = GameObject.Find("Scripts").GetComponent<StoryTeller>();
-      
+
         dT = GameObject.Find("Scripts").GetComponent<Data>();
 
         if (dT == null) {
@@ -39,11 +39,11 @@ public class DeadEngine: MonoBehaviour {
         }
 
 
-     
+
     }
 
     public void DoDamage() {
-        if(GetComponent<TP_Animator>().State != TP_Animator.CharacterState.Defense)
+        if (GetComponent<TP_Animator>().State != TP_Animator.CharacterState.Defense)
             if (dT.SetDamage(50))
                 ShowDead();
 

@@ -6,16 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Menu : MonoBehaviour
-{
+public class Menu : MonoBehaviour {
     public GameObject loadingOverlay;
     public Image preview;
     public int MainScene = 1;
     public int MenuScene = 2;
     public GameObject loadGameButton;
     public GameObject dataKeeper;
-    void Start()
-    {
+    void Start() {
         Cursor.visible = true;
 
         if (preview != null) {
@@ -25,10 +23,10 @@ public class Menu : MonoBehaviour
                 preview.sprite = IMG2Sprite.instance.LoadNewSprite(path);
             }
             else {
-                preview.sprite = (Sprite) Resources.Load("Assets/Resources/hud_background.png");
+                preview.sprite = (Sprite)Resources.Load("Assets/Resources/hud_background.png");
             }
         }
-        
+
 
     }
     private void Update() {
@@ -37,16 +35,14 @@ public class Menu : MonoBehaviour
             loadGameButton.GetComponent<Text>().color = Color.white;
         }
     }
-    public void GotoMainScene()
-    {
+    public void GotoMainScene() {
         loadingOverlay.SetActive(true);
         SceneManager.LoadScene(MainScene);
-       
+
     }
 
-    
-    public void GotoSceneNumber(int scn)
-    {
+
+    public void GotoSceneNumber(int scn) {
         if (!Data.SaveDataAvailable() && scn == 6) {
             Debug.Log("Sorry no save data avaible");
         }
@@ -55,8 +51,7 @@ public class Menu : MonoBehaviour
             SceneManager.LoadScene(scn);
         }
     }
-    public void GotoMenuScene()
-    {
+    public void GotoMenuScene() {
         SceneManager.LoadScene(MenuScene);
     }
 
@@ -66,18 +61,18 @@ public class Menu : MonoBehaviour
             Debug.Log("Sorry no save data avaible");
         }
         else {
-            Data data = GetComponent<Data>();           
+            Data data = GetComponent<Data>();
             data.LoadSave();
             int scene = data.GetLevel() + 2;
 
             loadingOverlay.SetActive(true);
             DontDestroyOnLoad(dataKeeper);
-           
+
             SceneManager.LoadScene(scene);
-          
+
 
         }
     }
 
- 
+
 }

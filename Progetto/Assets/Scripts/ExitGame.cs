@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExitGame : MonoBehaviour
-{
-    public static void ExitStatic()
-    {
-    #if UNITY_EDITOR
+public class ExitGame : MonoBehaviour {
+    public static void ExitStatic() {
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-    #else
-                Application.Quit(0);
-    #endif
+#else
+        Application.Quit(0);
+#endif
     }
-    public  void Exit() {
+    public void Exit() {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-                Application.Quit(0);
+        Application.Quit(0);
 #endif
     }
 }

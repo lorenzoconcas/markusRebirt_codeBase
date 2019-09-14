@@ -27,7 +27,7 @@ public class RGBShine : MonoBehaviour {
 
             if (hue > 1.0f)
                 hue = 0;
-        }     
-    
+        }
+
     }
 }

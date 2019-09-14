@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class MouseReaction : MonoBehaviour
-{
-   
+public class MouseReaction : MonoBehaviour {
+
     public float LBound = -46.0f;
     public float RBound = 25.5f;
     public float TBound = -12.0f;
     public float BBound = 12.0f;
     private Text text;
-    void Start()
-    {
+    void Start() {
         text = GetComponent<Text>();
     }
 
@@ -26,15 +24,15 @@ public class MouseReaction : MonoBehaviour
             }
             else
                 text.fontStyle = FontStyle.Bold;
-      
-            if (name.Equals("Esci")) 
-                text.color = Color.Lerp(Color.white, Color.HSVToRGB(1.0f,1.0f, 0.8f), 5);
-         }        
+
+            if (name.Equals("Esci"))
+                text.color = Color.Lerp(Color.white, Color.HSVToRGB(1.0f, 1.0f, 0.8f), 5);
+        }
         else {
             text.fontStyle = FontStyle.Normal;
-            if (name.Equals("Esci")) 
+            if (name.Equals("Esci"))
                 text.color = Color.Lerp(Color.HSVToRGB(1.0f, 1.0f, 0.8f), Color.white, 5);
-            
+
         }
     }
 }

@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimator : MonoBehaviour
-{
+public class EnemyAnimator : MonoBehaviour {
     private Animator animator;
     private EnemyMotor movScript;
-    void Start()
-    {
+    void Start() {
         movScript = GetComponent<EnemyMotor>();
         animator = GetComponent<Animator>();
 
     }
 
-    
-    void LateUpdate()
-    {
-        
-      
+
+    void LateUpdate() {
+
+
         //riproduciamo l'animazione necessaria
         switch (movScript.status) {
             case EnemyMotor.Status.IDLE:

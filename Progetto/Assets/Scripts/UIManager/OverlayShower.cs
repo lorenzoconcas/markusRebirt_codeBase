@@ -17,8 +17,8 @@ public class OverlayShower : MonoBehaviour {
         if (GameObject.Find("DataLoader") != null) {
             showIntro = false;
         }
-        if (showIntro){ 
-        
+        if (showIntro) {
+
             ToggleIntro(true);
         }
         else {
@@ -40,13 +40,13 @@ public class OverlayShower : MonoBehaviour {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(true);
-          
+
         }
     }
 
     void Update() {
 
-        if (Input.GetKeyUp(KeyCode.Escape)) {          
+        if (Input.GetKeyUp(KeyCode.Escape)) {
             if (!dT.GetDead()) {
                 if (introOverlay.activeSelf) {
                     ToggleIntro(false);
@@ -66,10 +66,10 @@ public class OverlayShower : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Confined;
             player.SetActive(false);
             try {
-               enemiesContainer.SetActive(false);
-             
+                enemiesContainer.SetActive(false);
+
             }
-            catch (Exception e){
+            catch (Exception e) {
                 Debug.Log(e.ToString());
             }
         }

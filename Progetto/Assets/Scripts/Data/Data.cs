@@ -150,4 +150,23 @@ public class Data : MonoBehaviour {
         }
 
     }
+
+    public bool[] getEnabledPowers() {
+        return saveData.unlockedPowers;
+    }
+    public int getEnabledPowersCount() {
+        int i = 0; foreach (bool b in saveData.unlockedPowers) {
+            if (b) i++;
+        }
+        return i;
+    }
+    public void SetEnabledPowers(int powerID) {
+        saveData.unlockedPowers[powerID] = true;
+    }
+    public void SetCurrentPower(int PowerID) {
+        saveData.currentPower = (DataFile.PowerType)PowerID;
+    }
+    public int GetCurrentPower() {
+        return (int)saveData.currentPower;
+    }
 }

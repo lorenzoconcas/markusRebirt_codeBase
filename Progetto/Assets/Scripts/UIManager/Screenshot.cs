@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
- // Screen Recorder will save individual images of active scene in any resolution and of a specific image format
- // including raw, jpg, png, and ppm.  Raw and PPM are the fastest image formats for saving.
- //
- // You can compile these images into a video using ffmpeg:
- // ffmpeg -i screen_3840x2160_%d.ppm -y test.avi
- 
- public class Screenshot : MonoBehaviour {
+// Screen Recorder will save individual images of active scene in any resolution and of a specific image format
+// including raw, jpg, png, and ppm.  Raw and PPM are the fastest image formats for saving.
+//
+// You can compile these images into a video using ffmpeg:
+// ffmpeg -i screen_3840x2160_%d.ppm -y test.avi
+
+public class Screenshot : MonoBehaviour {
     // 4k = 3840 x 2160   1080p = 1920 x 1080
     public int captureWidth = 1920;
     public int captureHeight = 1080;
@@ -109,7 +109,7 @@ using UnityEngine;
             if (fName == null)
                 filename = uniqueFilename((int)rect.width, (int)rect.height);
             else
-                filename = folder+"/"+fName;
+                filename = folder + "/" + fName;
 
             // pull in our file header/data bytes for the specified image format (has to be done from main thread)
             byte[] fileHeader = null;
@@ -132,14 +132,13 @@ using UnityEngine;
             }
 
             // create new thread to save the image to file (only operation that can be done in background)
-            new System.Threading.Thread(() =>
-            {
+            new System.Threading.Thread(() => {
                 // create file and write optional header with image bytes
                 var f = System.IO.File.Create(filename);
                 if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
                 f.Write(fileData, 0, fileData.Length);
                 f.Close();
-             //   Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
+                //   Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
             }).Start();
 
             // unhide optional game object if set

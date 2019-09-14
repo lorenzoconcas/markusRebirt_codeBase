@@ -29,7 +29,7 @@ public class CloseParent : MonoBehaviour {
         catch {
 
         }
-      
+
     }
 
 }

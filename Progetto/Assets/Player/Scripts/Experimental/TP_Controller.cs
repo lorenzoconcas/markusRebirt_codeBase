@@ -81,22 +81,18 @@ public class TP_Controller : MonoBehaviour {
         if (Input.GetButtonDown("Jump")) {
             Jump();
         }
-        /*
-		if(Input.GetKey(KeyCode.E)) {
-			Use ();
-		}*/
+
 
         if (Input.GetMouseButton(0)) {
-            Debug.Log("SX");
             Attack();
         }
         else if (Input.GetMouseButton(1)) {
-            Debug.Log("DX");
             Defense();
         }
-        else if (Input.GetMouseButton(2)) { //un solo power coinvolge l'animazione
-            Debug.Log("Centrale");
-          
+        else if (Input.GetMouseButton(2)) {
+            //un solo power coinvolge l'animazione
+            if(GameObject.Find("Scripts").GetComponent<Data>().GetCurrentPower() == 0)                
+                RotoAttack();
         }
 
     }
