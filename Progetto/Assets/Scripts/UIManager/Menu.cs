@@ -8,13 +8,14 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
     public GameObject loadingOverlay;
-
-    [Header("Impostazioni per il menu principale")]
+    [Header("Data Loader Object")]
+    public GameObject dataKeeper;
+    [Header("Main menu settings")]
     public Image preview;
     public int MainScene = 1;
     public int MenuScene = 2;
     public GameObject loadGameButton;
-    public GameObject dataKeeper;
+    
     public Sprite blackHUD;
     void Start() {
         Cursor.visible = true;

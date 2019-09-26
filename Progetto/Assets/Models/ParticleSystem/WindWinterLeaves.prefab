@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7189476944973578265}
   - component: {fileID: 5203227775875659140}
   - component: {fileID: 7547045233819786610}
-  - component: {fileID: 1886551200871943567}
   m_Layer: 0
   m_Name: WindWinterLeaves
   m_TagString: Untagged
@@ -4771,16 +4770,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1886551200871943567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2542901729119385159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c98fbe5eadbaaaf41bd8c15f11e7fed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 4

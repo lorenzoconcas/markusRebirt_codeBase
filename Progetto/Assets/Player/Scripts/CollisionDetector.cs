@@ -8,7 +8,7 @@ public class CollisionDetector : MonoBehaviour {
     public AudioClip[] audioClips;
     public AudioSource aSource;
     public GameObject loadingOverlay;
-
+    public string PortalMessage;
     private Data dS;
   
     public Material checkPointMaterial;
@@ -27,11 +27,13 @@ public class CollisionDetector : MonoBehaviour {
      void Update() {
         if (Input.GetKeyDown(KeyCode.Space) && portalEntered) {
             //load world
-            dS.SaveGame();
-            int scene = SceneManager.GetActiveScene().buildIndex+1;
-            loadingOverlay.SetActive(true);
-            DontDestroyOnLoad(GameObject.FindGameObjectWithTag("DataKeeper"));
-            SceneManager.LoadScene(scene);
+             dS.SaveGame();
+             int scene = SceneManager.GetActiveScene().buildIndex+1;
+             loadingOverlay.SetActive(true);
+             DontDestroyOnLoad(GameObject.FindGameObjectWithTag("DataKeeper"));
+             SceneManager.LoadScene(scene);
+           // ExitGame.ExitStatic();
+
         }
     }
 
@@ -72,7 +74,7 @@ public class CollisionDetector : MonoBehaviour {
             portalEntered = true;
             var sT = GameObject.Find("Scripts").GetComponent<StoryTeller>();
 
-            sT.ShowMessage("Hai completato il primo livello! Preparati perche' l'avventura e' appena iniziata", "Premi SPACE per continuare");
+            sT.ShowMessage(PortalMessage, "Premi SPACE per continuare");
         }
     }
 

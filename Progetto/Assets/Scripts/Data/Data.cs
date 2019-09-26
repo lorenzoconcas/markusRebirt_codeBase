@@ -149,7 +149,7 @@ public class Data : MonoBehaviour {
         string retrievedData = File.ReadAllText(location);
         saveData = JsonUtility.FromJson<DataFile>(retrievedData);
 
-        Debug.Log(saveData.lastSpawn);
+        //Debug.Log(saveData.lastSpawn);
 
     }
     public void LoadSave() {
@@ -210,6 +210,11 @@ public class Data : MonoBehaviour {
     }
     public DataFile.PowerType GetCurrentPowerEnum() {
         return saveData.currentPower;
+    }
+
+    public new void ToString() {
+        var res = JsonUtility.ToJson(saveData);
+        Debug.Log(res);
     }
    
 }

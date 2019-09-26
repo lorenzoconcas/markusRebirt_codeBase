@@ -17,9 +17,7 @@ public class ButtonSound : MonoBehaviour {
             aSource.clip = audio;
             aSource.Play();
         }
-
     }
-
 }
 
 

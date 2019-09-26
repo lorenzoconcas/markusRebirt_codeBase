@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3935778229586564016}
   - component: {fileID: 7243060677572178137}
   - component: {fileID: 2167509519982580315}
-  - component: {fileID: 5305282705134765557}
   m_Layer: 0
   m_Name: WindAutumnLeaves
   m_TagString: Untagged
@@ -223,7 +222,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.7264151, g: 0.21139939, b: 0.065103225, a: 1}
+      maxColor: {r: 0.11764706, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4771,16 +4770,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5305282705134765557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030046075978085243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c98fbe5eadbaaaf41bd8c15f11e7fed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 4

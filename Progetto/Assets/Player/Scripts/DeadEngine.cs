@@ -10,7 +10,7 @@ public class DeadEngine : MonoBehaviour {
 
     public AudioClip DeathSound;
     public AudioClip ShieldSound;
-    public AudioClip EnemyAttackSound;
+    public AudioClip PlayerDamageSound;
     public AudioSource aSource;
     private StoryTeller sT;
     private Data dT;
@@ -39,6 +39,7 @@ public class DeadEngine : MonoBehaviour {
     }
 
     void Update() {
+      
         if (dead) {
             if (Input.GetKeyUp(KeyCode.Space)) {
                 // sT.HideMessage(); non ne ho bisogno perchè ho già una funzione che chiude l'overlay
@@ -59,7 +60,7 @@ public class DeadEngine : MonoBehaviour {
         if (state != TP_Animator.CharacterState.Defense || state != TP_Animator.CharacterState.Power1) {
             if (dT.SetDamage(50))
                 ShowDead();
-            Play(EnemyAttackSound);
+            Play(PlayerDamageSound);
         }
         else if (state == TP_Animator.CharacterState.Defense)
             Play(ShieldSound);

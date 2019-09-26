@@ -10,7 +10,7 @@ public class PortalSpawner : MonoBehaviour
     private GameObject[] enemies;
     public Light[] lights;
     public GameObject Portal;
-    public GameObject PortalHolder;
+    
     public Material darkSky;
     public AudioClip PortalOpeningSound;
     public AudioSource aSource;
@@ -26,6 +26,7 @@ public class PortalSpawner : MonoBehaviour
     void Start()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+       
     }
 
     // Update is called once per frame
@@ -53,8 +54,8 @@ public class PortalSpawner : MonoBehaviour
         }
     }
     void OpenPortal() {
-        if (!PortalOpened) {          
-            Instantiate(Portal, PortalHolder.transform, true);
+        if (!PortalOpened) {
+            Portal.SetActive(true);
             Instantiate(dataKeeper);
             DontDestroyOnLoad(dataKeeper);
             RenderSettings.skybox = darkSky;

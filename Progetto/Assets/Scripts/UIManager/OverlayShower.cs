@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OverlayShower : MonoBehaviour {
     public GameObject pauseOverlay;
@@ -24,8 +25,7 @@ public class OverlayShower : MonoBehaviour {
 #if UNITY_EDITOR
         showIntro = false;
 #endif
-        if (showIntro) {
-
+        if (showIntro && SceneManager.GetActiveScene().buildIndex == 2) { //lo mostro solo nel primo livello
             ToggleIntro(true);
         }
         else {
@@ -38,15 +38,10 @@ public class OverlayShower : MonoBehaviour {
         introOverlay.SetActive(enabled);
         SetVolume(enabled);
         Cursor.visible = enabled;
+        player.GetComponent<TP_Animator>().State = TP_Animator.CharacterState.Idle;
         player.SetActive(!enabled);
-        if (enabled) {
-            Cursor.lockState = CursorLockMode.Confined;           
-            player.GetComponent<TP_Animator>().State = TP_Animator.CharacterState.Idle;           
-        }
-        else {
-            Cursor.lockState = CursorLockMode.Confined;
-          
-        }
+        Cursor.lockState = CursorLockMode.Confined;
+
     }
 
     void Update() {
@@ -58,8 +53,8 @@ public class OverlayShower : MonoBehaviour {
                 }
                 else {
                     TogglePause(!pauseOverlay.activeSelf);
-                    
-                    
+
+
                 }
             }
         }
@@ -70,6 +65,7 @@ public class OverlayShower : MonoBehaviour {
         SetVolume(enabled);
         pauseOverlay.SetActive(enabled);
         Cursor.visible = enabled;
+     
         player.SetActive(!enabled);
 
         try {
@@ -78,12 +74,16 @@ public class OverlayShower : MonoBehaviour {
         catch (Exception e) {
             Debug.Log(e.ToString());
         }
-       
+
 
 
         if (enabled) {
             Cursor.lockState = CursorLockMode.Confined;
-            GameObject.Find("Markus").GetComponent<TP_Animator>().State = TP_Animator.CharacterState.Idle;    
+
+
+
+            //var an = markus.GetComponent<TP_Animator>();
+            //.State = TP_Animator.CharacterState.Idle;    
         }
         else {
             Cursor.lockState = CursorLockMode.Confined;
@@ -110,5 +110,5 @@ public class OverlayShower : MonoBehaviour {
                 ThemeSpeaker.volume = 1.0f;
         }
     }
-    
+
 }
