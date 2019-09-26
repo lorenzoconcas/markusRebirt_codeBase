@@ -11,8 +11,10 @@ using UnityEngine;
 
 public class Screenshot : MonoBehaviour {
     // 4k = 3840 x 2160   1080p = 1920 x 1080
-    public int captureWidth = 1920;
-    public int captureHeight = 1080;
+    //prendiamo le dimensioni dello schermo da unity così lo screenshot sarà sempre della dimensione corretta al posto di una prefissata
+
+    public int captureWidth = Screen.width;
+    public int captureHeight = Screen.height;
 
     // optional game object to hide during screenshots (usually your scene canvas hud)
     public GameObject hideGameObject;

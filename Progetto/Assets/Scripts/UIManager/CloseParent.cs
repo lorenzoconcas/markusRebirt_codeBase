@@ -5,13 +5,14 @@ using UnityEngine;
 public class CloseParent : MonoBehaviour {
 
     public KeyCode key;
-    public Camera camera;
+    public new Camera camera;
     public GameObject enemies;
     public GameObject player;
     public void closeParent() {
         close();
     }
     private void Update() {
+        
         if (Input.GetKeyDown(key)) {
             close();
         }

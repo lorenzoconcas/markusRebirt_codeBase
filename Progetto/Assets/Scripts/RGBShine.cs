@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RGBShine : MonoBehaviour {
-    private Light light;
+    private new Light light;
     private Color color;
     private Color previousColor;
     private float hue = 0;

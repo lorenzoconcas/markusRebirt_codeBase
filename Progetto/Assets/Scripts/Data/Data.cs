@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +13,7 @@ public class Data : MonoBehaviour {
     private Screenshot screenshot;
     public Camera cam;
 
-
+    public GameObject[][] enemies;
 
     public bool GetDead() {
         return saveData.lifes <= 0;
@@ -25,11 +22,52 @@ public class Data : MonoBehaviour {
     public int Lifes() {
         return saveData.lifes;
     }
+    public void SetLifes(int lifes) {
+        saveData.lifes = lifes;
+    }
+    public void IncreaseLife() {
+        if (saveData.lifes <= 2)
+            saveData.lifes++;
+
+        if (saveData.lifes == 3 && saveData.health < 100)
+            saveData.health = 100;
+    }
+    public void SetHealth(int health) {
+        saveData.health = health;
+    }
     public int getHealth() {
         return saveData.health;
     }
     public float[] getPowerLevel() {
         return saveData.powerLevel;
+    }
+
+    public void SetCurrentPowerLevel(float level) {
+        saveData.powerLevel[(int)saveData.currentPower] = level;
+    }
+
+    public void SetPowerLevel(float level, DataFile.PowerType power)
+    {
+        saveData.powerLevel[(int)power] = level;
+    }
+
+    public void SetLowestPowerLevel(float level){ 
+        saveData.powerLevel[LowestPower()]= level;
+    }
+
+    public int LowestPower(){
+        int lowest = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            if (saveData.powerLevel[i] < saveData.powerLevel[lowest])
+                lowest = i;
+        }
+        return lowest;
+    }
+
+    public void ReducePowerLevel(float level) {
+       // Debug.Log("Reduced "+saveData.currentPower+ " by : "+level);
+        saveData.powerLevel[(int)saveData.currentPower] -= level;
     }
     //questa funzione segna il danno e restituisce se il player
     //non ha più vite (morto)
@@ -56,14 +94,14 @@ public class Data : MonoBehaviour {
             Cursor.visible = false;
             if (GameObject.Find("DataLoader") != null) { //dobbiamo caricare un salvataggio 
                 Destroy(GameObject.Find("DataLoader"));
-                GetComponent<OverlayShower>().showIntro = false;
+               // GetComponent<OverlayShower>().showIntro = false;
                 LoadSave();
 
                 player.transform.position = saveData.lastSpawn;
 
             }
             else {
-                GetComponent<OverlayShower>().showIntro = true;
+               // GetComponent<OverlayShower>().showIntro = true;
 
                 saveData = new DataFile();
 
@@ -155,9 +193,10 @@ public class Data : MonoBehaviour {
         return saveData.unlockedPowers;
     }
     public int getEnabledPowersCount() {
-        int i = 0; foreach (bool b in saveData.unlockedPowers) {
+        int i = 0;
+        foreach (bool b in saveData.unlockedPowers) 
             if (b) i++;
-        }
+        
         return i;
     }
     public void SetEnabledPowers(int powerID) {
@@ -169,4 +208,8 @@ public class Data : MonoBehaviour {
     public int GetCurrentPower() {
         return (int)saveData.currentPower;
     }
+    public DataFile.PowerType GetCurrentPowerEnum() {
+        return saveData.currentPower;
+    }
+   
 }

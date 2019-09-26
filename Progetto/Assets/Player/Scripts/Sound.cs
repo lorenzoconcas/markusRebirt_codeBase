@@ -26,47 +26,24 @@ public class Sound : MonoBehaviour {
             case TP_Animator.CharacterState.Walking:
                 Play(Sounds[0]);
                 break;
-            case TP_Animator.CharacterState.Running:
-
-                break;
-            case TP_Animator.CharacterState.WalkingBackwards:
-
-                break;
-            case TP_Animator.CharacterState.StrafingLeft:
-
-                break;
-            case TP_Animator.CharacterState.StrafingRight:
-
-                break;
             case TP_Animator.CharacterState.Jumping:
                 Play(Sounds[1]);
                 break;
-            case TP_Animator.CharacterState.Falling:
-
-                break;
-            case TP_Animator.CharacterState.Landing:
-
-                break;
-            /*  case TP_Animator.CharacterState.Climbing:
-                  break;
-              case TP_Animator.CharacterState.Sliding:
-                  break;*/
-            case TP_Animator.CharacterState.Using:
-
+            case TP_Animator.CharacterState.Running:
+                Play(Sounds[2]);
                 break;
             case TP_Animator.CharacterState.Attacking:
-
+                Play(Sounds[3]);
                 break;
-
-            case TP_Animator.CharacterState.Dead:
+            case TP_Animator.CharacterState.Falling:
                 break;
-            case TP_Animator.CharacterState.ActionLocked:
+            case TP_Animator.CharacterState.Landing:
+                Play(Sounds[4]);
+                break;           
+            case TP_Animator.CharacterState.Power1:
+                Play(Sounds[5]);
                 break;
         }
-
-
-
-
     }
 
 

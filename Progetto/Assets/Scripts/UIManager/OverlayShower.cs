@@ -6,10 +6,12 @@ using UnityEngine;
 public class OverlayShower : MonoBehaviour {
     public GameObject pauseOverlay;
     public GameObject introOverlay;
-
+    public GameObject commandsOverlay;
     public GameObject enemiesContainer;
     public GameObject player;
-    public bool showIntro = !Data.SaveDataAvailable(); //se non ci sono salvataggi siamo alla prima partita
+    public AudioSource ThemeSpeaker;
+    [Range(0f, 1f)] public float VolumeOnPause = 1.0f;
+    private bool showIntro = !Data.SaveDataAvailable(); //se non ci sono salvataggi siamo alla prima partita
 
     private Data dT;
     void Start() {
@@ -17,6 +19,11 @@ public class OverlayShower : MonoBehaviour {
         if (GameObject.Find("DataLoader") != null) {
             showIntro = false;
         }
+
+        //evita di mostrare la splash screen ad ogni test
+#if UNITY_EDITOR
+        showIntro = false;
+#endif
         if (showIntro) {
 
             ToggleIntro(true);
@@ -28,19 +35,17 @@ public class OverlayShower : MonoBehaviour {
     }
 
     private void ToggleIntro(bool enabled) {
+        introOverlay.SetActive(enabled);
+        SetVolume(enabled);
+        Cursor.visible = enabled;
+        player.SetActive(!enabled);
         if (enabled) {
-            introOverlay.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            player.SetActive(false);
-            GameObject.Find("Enemies").SetActive(false); //da rimuovere
+            Cursor.lockState = CursorLockMode.Confined;           
+            player.GetComponent<TP_Animator>().State = TP_Animator.CharacterState.Idle;           
         }
         else {
-            introOverlay.SetActive(false);
-            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
-            player.SetActive(true);
-
+          
         }
     }
 
@@ -53,6 +58,8 @@ public class OverlayShower : MonoBehaviour {
                 }
                 else {
                     TogglePause(!pauseOverlay.activeSelf);
+                    
+                    
                 }
             }
         }
@@ -60,35 +67,48 @@ public class OverlayShower : MonoBehaviour {
     }
 
     private void TogglePause(bool enabled) {
-        if (enabled) {
-            pauseOverlay.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            player.SetActive(false);
-            try {
-                enemiesContainer.SetActive(false);
+        SetVolume(enabled);
+        pauseOverlay.SetActive(enabled);
+        Cursor.visible = enabled;
+        player.SetActive(!enabled);
 
-            }
-            catch (Exception e) {
-                Debug.Log(e.ToString());
-            }
+        try {
+            enemiesContainer.SetActive(!enabled);
+        }
+        catch (Exception e) {
+            Debug.Log(e.ToString());
+        }
+       
+
+
+        if (enabled) {
+            Cursor.lockState = CursorLockMode.Confined;
+            GameObject.Find("Markus").GetComponent<TP_Animator>().State = TP_Animator.CharacterState.Idle;    
         }
         else {
-            pauseOverlay.SetActive(false);
-            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
-            player.SetActive(true);
-            try {
-                enemiesContainer.SetActive(true);
-            }
-            catch (Exception e) {
-                Debug.Log(e.ToString());
-            }
-
+            commandsOverlay.SetActive(false);
         }
     }
     //serve per il tasto continua nel menu pausa
     public void ContinueGame() {
         TogglePause(false);
     }
+
+    public void CloseCommandView() {
+        commandsOverlay.SetActive(false);
+    }
+    public void OpenCommandsView() {
+        commandsOverlay.SetActive(true);
+    }
+
+    public void SetVolume(bool reduce) {
+        if (ThemeSpeaker != null) {
+            if (reduce)
+                ThemeSpeaker.volume = VolumeOnPause;
+            else
+                ThemeSpeaker.volume = 1.0f;
+        }
+    }
+    
 }

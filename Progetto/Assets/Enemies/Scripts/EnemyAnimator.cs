@@ -8,7 +8,6 @@ public class EnemyAnimator : MonoBehaviour {
     void Start() {
         movScript = GetComponent<EnemyMotor>();
         animator = GetComponent<Animator>();
-
     }
 
 
@@ -17,13 +16,20 @@ public class EnemyAnimator : MonoBehaviour {
 
         //riproduciamo l'animazione necessaria
         switch (movScript.status) {
+            case EnemyMotor.Status.FROZEN:
+                animator.enabled = false; //pausa l'animazione
+                break;
+            case EnemyMotor.Status.ATTACK_DONE:
             case EnemyMotor.Status.IDLE:
+                animator.enabled = true;
                 animator.Play("Idle");
                 break;
             case EnemyMotor.Status.WALKING:
+                animator.enabled = true;
                 animator.Play("Walk");
                 break;
             case EnemyMotor.Status.ATTACKING:
+                animator.enabled = true;
                 animator.Play("Attack");
                 break;
         }

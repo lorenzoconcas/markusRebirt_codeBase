@@ -32,10 +32,13 @@ public class TP_Controller : MonoBehaviour {
             //Debug.LogError(TAG + " No main camera in scene!");
             return;
         }
+        HandleActionInput();
         // Read input.
         GetLocomotionInput();
         // Handle action input.
-        HandleActionInput();
+        if (Input.GetButtonDown("Jump")) {
+            Jump();
+        }
         // Move the character.
         TP_Motor.instance.UpdateMotor();
     }
@@ -54,7 +57,7 @@ public class TP_Controller : MonoBehaviour {
         float h = Input.GetAxis("Horizontal");
         // Read Vertical Axis.
         float v = Input.GetAxis("Vertical");
-
+      
         // Add read values to MoveVector.
         if (v > 0.1 || v < -0.1)
             TP_Motor.instance.MoveVector += new Vector3(0, 0, v);
@@ -63,7 +66,7 @@ public class TP_Controller : MonoBehaviour {
             TP_Motor.instance.MoveVector += new Vector3(h, 0, 0);
 
         TP_Animator.instance.DetermineCurrentMoveDirection();
-
+      
         // If the player is pressing left shit ...
         if (Input.GetKey(KeyCode.LeftShift)) {
             // ... then the character is running.
@@ -78,9 +81,7 @@ public class TP_Controller : MonoBehaviour {
 
     void HandleActionInput() {
         // If the player has pressed the jump button then jump!
-        if (Input.GetButtonDown("Jump")) {
-            Jump();
-        }
+      
 
 
         if (Input.GetMouseButton(0)) {
@@ -91,7 +92,8 @@ public class TP_Controller : MonoBehaviour {
         }
         else if (Input.GetMouseButton(2)) {
             //un solo power coinvolge l'animazione
-            if(GameObject.Find("Scripts").GetComponent<Data>().GetCurrentPower() == 0)                
+            var data = GameObject.Find("Scripts").GetComponent<Data>();
+            if(data.GetCurrentPower() == 0 && data.getEnabledPowers()[0])                
                 RotoAttack();
         }
 

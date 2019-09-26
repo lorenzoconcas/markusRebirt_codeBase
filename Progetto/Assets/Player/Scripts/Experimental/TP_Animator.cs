@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(TP_Controller))]
@@ -35,13 +36,26 @@ public class TP_Animator : MonoBehaviour {
         ActionLocked
     }
 
-    #region PUBLIC_VARIABLES
-
+    
     public static TP_Animator instance;
 
+    [Header("Tempo di salita")]
+    public float acendingTime = 2.0f;
+    #region ANIMATIONS_SPEED
+
+    [Header("Velocità Animazioni")]
+    [Tooltip("Calcola la durata con la formula t = (f_count/fps)/multiplier")]
+    //valori da regolare secondo t = (f_count/fps)/multiplier
+    public float NormalAttack = 0.92f;
+    public float RotoAttack = 0.7f;
 
     #endregion
 
+    #region
+    [Header("Brushblade")]
+    public GameObject brushflow;
+    public GameObject brushblade;
+    #endregion
     #region PRIVATE_VARIABLES
 
 
@@ -49,23 +63,18 @@ public class TP_Animator : MonoBehaviour {
 
     public float runSpeed = 25.0f;
 
-    private float[] Timers = { 0.0f, 0.0f };
+    private float JumpTimer =  0.0f ;
 
     public float FallHeight = 0.72f; //altezza oltre la quale è considerata come una caduta 
 
-
-    #endregion
-    [Header("Tempo di salita")]
-    public float acendingTime = 2.0f;
-    #region ANIMATIONS_SPEED
-
-    [Header("Velocità Animazioni")]
-    //questi valori vanno regolati ad occhio per ora
-    public float NormalAttack = 2.0f;
-    public float RotoAttack = 5.0f;
-
+   
     #endregion
 
+
+    private Data data;
+    private bool RotoAttackAvailable = true;
+    private bool NormalAttackAvailable = true;
+   
 
 
     #region PUBLIC_PROPERTIES
@@ -85,12 +94,15 @@ public class TP_Animator : MonoBehaviour {
         //anim = GetComponent<Animation>();
         animator = GetComponent<Animator>();
         State = CharacterState.Idle;
+        data = GameObject.Find("Scripts").GetComponent<Data>();
+       // brushflow = GameObject.FindGameObjectWithTag("Brushflow");
     }
 
     // Update is called once per frame
     void Update() {
         DetermineCurrentCharacterState();
         ProcessCurrentCharacterState();
+     
     }
 
     #endregion
@@ -190,11 +202,11 @@ public class TP_Animator : MonoBehaviour {
                      * altrimenti lascio lo stato attuale
                      */
 
-                    Timers[0] += Time.deltaTime;
+                    JumpTimer += Time.deltaTime;
 
                     if (State == CharacterState.Jumping) {
-                        if (Timers[0] >= acendingTime) {
-                            Timers[0] = Timers[0] - acendingTime;
+                        if (JumpTimer >= acendingTime) {
+                            JumpTimer = JumpTimer - acendingTime;
                             State = CharacterState.Falling;
                         }
                     }
@@ -211,7 +223,7 @@ public class TP_Animator : MonoBehaviour {
         }
         else {
             //alcuni casi hanno bisogno di una gestione specifica per ciò usiamo lo switch
-            Timers[1] += Time.deltaTime;
+            
             switch (State) {
                 case CharacterState.Falling://se sto cadendo e sono ground atterro
                     State = CharacterState.Landing;
@@ -220,19 +232,25 @@ public class TP_Animator : MonoBehaviour {
                     State = CharacterState.Idle;
                     break;
                 case CharacterState.Power1:
-                    if (Timers[1] >= RotoAttack) {
-                        //resettiamo il tempo se l'animazione d'attacco è finita
-                        Timers[1] -= RotoAttack;
-                        State = CharacterState.Idle;
-                    }
-                    break;
-                case CharacterState.Attacking:
-                    if (Timers[1] >= NormalAttack) {
-                        //resettiamo il tempo se l'animazione d'attacco è finita
-                        Timers[1] -= NormalAttack;
-                        State = CharacterState.Idle;
+                    if (RotoAttackAvailable) {
+                        StartCoroutine("wait", new float[] { RotoAttack, 0f });
+                        RotoAttackAvailable = false;
+                        data.ReducePowerLevel(0.09f);
+                        
+                        //Instanziamo l'effetto del rotoattack, poi lo spostiamo di posizione
+                        Instantiate(brushflow, brushblade.transform.position, Quaternion.identity);
+                        var test = GameObject.FindGameObjectWithTag("Brushflow");  
+                        test.transform.SetParent(brushblade.transform, true);
+                        test.transform.position += new Vector3(1.0f, 0f, 1.0f);
                     }
 
+                    break;
+                case CharacterState.Attacking:
+                    if (NormalAttackAvailable) {
+                        StartCoroutine("wait", new float[] { RotoAttack, 1f });
+                        NormalAttackAvailable = false;                       
+                    }
+                  
                     break;
 
                 default:
@@ -267,7 +285,22 @@ public class TP_Animator : MonoBehaviour {
         }
 
     }
-
+    public IEnumerator wait(float[] parms) {
+     
+        yield return new WaitForSeconds(parms[0]);
+        switch ((int)parms [1]) {
+            case 0:
+                State = CharacterState.Idle;
+                RotoAttackAvailable = true;              
+                break;
+            case 1:
+                State = CharacterState.Idle;
+                NormalAttackAvailable = true;
+                break;
+           
+        }
+       
+    }
     void ProcessCurrentCharacterState() {
 
         switch (State) {
@@ -324,7 +357,15 @@ public class TP_Animator : MonoBehaviour {
         State = CharacterState.Attacking;
     }
     public void RotatingAttack() {
-        State = CharacterState.Power1;
+        var pLevel = data.getPowerLevel();
+        if (pLevel[0] > 0)
+            State = CharacterState.Power1;
+        else
+            Debug.LogWarning("Hai finito il potere 1 ");
+    }
+
+    public void Jump() {
+         instance.State = CharacterState.Jumping;    
     }
     #endregion
 }

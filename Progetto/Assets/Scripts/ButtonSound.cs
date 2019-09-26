@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ButtonSound : MonoBehaviour {
-    public AudioClip audio;
+    public new AudioClip audio;
     public AudioSource aSource;
     public void MouseClick(bool check = false) {
         if (check) {
@@ -12,7 +12,6 @@ public class ButtonSound : MonoBehaviour {
                 aSource.clip = audio;
                 aSource.Play();
             }
-
         }
         else {
             aSource.clip = audio;

@@ -28,11 +28,12 @@ public class StoryTeller : MonoBehaviour {
         continueButton.text = cbText;
         messageObject.text = message;
         Cursor.visible = true;
-
-        overlay.SetActive(!overlay.activeSelf);
+        GameObject.Find("Scripts").GetComponent<OverlayShower>().SetVolume(true);
+        overlay.SetActive(true);
         // Destroy(this);
     }
     public void HideMessage() {
-        overlay.SetActive(!overlay.activeSelf);
+        GameObject.Find("Scripts").GetComponent<OverlayShower>().SetVolume(false);
+        overlay.SetActive(true);
     }
 }

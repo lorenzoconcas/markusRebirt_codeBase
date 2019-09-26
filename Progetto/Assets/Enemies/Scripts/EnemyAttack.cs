@@ -5,17 +5,24 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour {
     private GameObject player;
     private DeadEngine DeadEngine;
-    public float coolDown = 1.0f;
-    private float timer = 0.0f;
+    public EnemyMotor eMotor;
+    //public GameObject enemyRoot;
+    
     void Start() {
         player = GameObject.Find("Markus");
         DeadEngine = player.GetComponent<DeadEngine>();
+        //eMotor = enemyRoot.GetComponent<EnemyMotor>();
+        if (eMotor == null)
+            Debug.LogError("EnemyMotor Non trovato");
+       // eMotor = GetComponent<EnemyMotor>();
     }
 
 
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) {    
         if (other.gameObject.name.Contains("Markus")) {
             DeadEngine.DoDamage();
+            eMotor.attack();
         }
-    }
+    }   
 }
+ 

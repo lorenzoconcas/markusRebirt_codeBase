@@ -11,11 +11,12 @@ public class HUDManager : MonoBehaviour {
     private Data data;
     void Start() {
         data = GetComponent<Data>();
+      
+    }
+    void Update() {
         hearts[2].fillAmount = 100;
         hearts[1].fillAmount = 100;
         hearts[0].fillAmount = 100;
-    }
-    void Update() {
         var lifes = data.Lifes(); //valori {1-3}
         float health = (float)data.getHealth() / 100; //il cast viene effettuato prima per non perdere il valore
 
@@ -40,20 +41,23 @@ public class HUDManager : MonoBehaviour {
 
         var pLevels = data.getPowerLevel();
         var enabledPowers = data.getEnabledPowers();
-
+      
 
         //attiviamo le barre di livello dei poteri sbloccati
-        for (int i = 0; i < 3; i++) {
-            powerLevels[i].transform.parent.gameObject.SetActive(enabledPowers[i]);
+        for (int i = 0; i < 3; i++) {            
+            powerLevels[i].transform.parent.gameObject.SetActive(enabledPowers[i]);           
         }
+
         //e le riempiamo 
         if (enabledPowers[0])
             powerLevels[0].fillAmount = pLevels[0];
         if (enabledPowers[1])
-            powerLevels[1].fillAmount = pLevels[0];
+            powerLevels[1].fillAmount = pLevels[1];
         if (enabledPowers[2])
-            powerLevels[2].fillAmount = pLevels[0];
+            powerLevels[2].fillAmount = pLevels[2];
 
+
+      
         //infine mettiamo l'indicatore sul potere attivo
 
         foreach (GameObject g in activeLevelIndicators) {
@@ -64,8 +68,7 @@ public class HUDManager : MonoBehaviour {
         activeLevelIndicators[active].SetActive(true);
 
 
-        //METTERE QUESTA ROBA NEL COLLIDER DEL PENNELLEN
-        //  GameObject.Find("Scripts").GetComponent<Data>().SetAttack(DataFile.PowerType.P1, 0.01f);
+     
     }
 
 }

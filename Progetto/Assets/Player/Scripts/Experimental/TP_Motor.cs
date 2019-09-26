@@ -26,7 +26,7 @@ public class TP_Motor : MonoBehaviour {
     #region PRIVATE_VARIABLES
 
     private Vector3 slideDirection;
-
+    private bool risready = true;
     #endregion
 
     #region PUBLIC_PROPERTIES
@@ -50,15 +50,16 @@ public class TP_Motor : MonoBehaviour {
 
     // Function to update movement, called by TP_Controller.
     public void UpdateMotor() {
+       
         SnapAlignCharacterWithCamera();
         ProcessMotion();
     }
 
     public void Jump() {
         if (TP_Controller.characterController.isGrounded) {
+
+            TP_Animator.instance.Jump();
             VerticalVelocity = jumpForce;
-            TP_Animator.instance.State = TP_Animator.CharacterState.Jumping;
-            GetComponent<Sound>().state = TP_Animator.CharacterState.Jumping;
         }
     }
 
@@ -85,8 +86,7 @@ public class TP_Motor : MonoBehaviour {
         if (MoveVector.magnitude > 1)
             MoveVector.Normalize();
 
-        // Apply sliding if applicable.
-        ApplySlide();
+       
 
         // Multiply MoveVector by MoveSpeed.
         MoveVector *= MoveSpeed();
@@ -97,8 +97,8 @@ public class TP_Motor : MonoBehaviour {
         // Apply Gravity.
         ApplyGravity();
 
-        // Rotate the character if it's moving diagonally.
-        //	RotateCharacter ();
+
+        RotateCharacter();
         // Move the character in WorldSpace.
         TP_Controller.characterController.Move(MoveVector * Time.deltaTime);
     }
@@ -135,15 +135,38 @@ public class TP_Motor : MonoBehaviour {
     }
 
     void RotateCharacter() {
-        switch (TP_Animator.instance.MoveDirection) {
-            case TP_Animator.Direction.LeftForward:
-                transform.Rotate(0, 315f, 0);
+        /* switch (TP_Animator.instance.MoveDirection) {
+
+             case TP_Animator.Direction.LeftForward:
+                 transform.Rotate(0, 315f, 0);
+                 break;
+             case TP_Animator.Direction.RightForward:
+                 transform.Rotate(0, 45f, 0);
+                 break;
+         }*/
+        //contro
+        switch (TP_Animator.instance.State) {
+            case TP_Animator.CharacterState.StrafingLeft:
+                if(risready)
+                     transform.Rotate(0, -30.0f, 0);
+                risready = false;
+                StartCoroutine("wait");
                 break;
-            case TP_Animator.Direction.RightForward:
-                transform.Rotate(0, 45f, 0);
+            case TP_Animator.CharacterState.StrafingRight:
+                if (risready)
+                    transform.Rotate(0, 30.0f, 0);
+                risready = false;
+                StartCoroutine("wait");
+              
                 break;
+
         }
 
+    }
+
+    public IEnumerator wait() {
+        yield return new WaitForSeconds(2);
+        risready = true;
     }
 
     void ApplyGravity() {
