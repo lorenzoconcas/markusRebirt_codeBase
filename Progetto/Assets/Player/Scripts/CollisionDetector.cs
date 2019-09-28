@@ -9,14 +9,15 @@ public class CollisionDetector : MonoBehaviour {
     public AudioSource aSource;
     public GameObject loadingOverlay;
     public string PortalMessage;
+    public bool LastLevel = false;
     private Data dS;
-  
+
     public Material checkPointMaterial;
 
     public bool portalEntered { get; private set; }
 
     private void Start() {
-    
+
 
         dS = ScriptHolder.GetComponent<Data>();
         if (dS == null)
@@ -24,23 +25,29 @@ public class CollisionDetector : MonoBehaviour {
 
     }
 
-     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) && portalEntered) {
-            //load world
-             dS.SaveGame();
-             int scene = SceneManager.GetActiveScene().buildIndex+1;
-             loadingOverlay.SetActive(true);
-             DontDestroyOnLoad(GameObject.FindGameObjectWithTag("DataKeeper"));
-             SceneManager.LoadScene(scene);
-           // ExitGame.ExitStatic();
-
+    void Update() {
+        if (portalEntered) {
+            dS.SaveGame();
+            int scene = SceneManager.GetActiveScene().buildIndex + 1;
+            loadingOverlay.SetActive(true);
+            if (LastLevel) {
+                SceneManager.LoadScene(scene);
+            }
+            else {
+                if (Input.GetKeyDown(KeyCode.Space)) {
+                    SceneManager.LoadScene(scene);
+                    DontDestroyOnLoad(GameObject.FindGameObjectWithTag("DataKeeper"));
+                }
+            }
+          
         }
+       
     }
 
     public void OnTriggerEnter(Collider collider) {
         var tag = collider.gameObject.tag;
         var name = collider.gameObject.name;
-      
+
         if (tag.Contains("Collectible")) {
             Destroy(collider.gameObject);
             PlayAudio(0);
@@ -72,13 +79,14 @@ public class CollisionDetector : MonoBehaviour {
 
         if (tag.Contains("Portal")) {
             portalEntered = true;
-            var sT = GameObject.Find("Scripts").GetComponent<StoryTeller>();
-
-            sT.ShowMessage(PortalMessage, "Premi SPACE per continuare");
+            if (!LastLevel) {
+                var sT = GameObject.Find("Scripts").GetComponent<StoryTeller>();
+                sT.ShowMessage(PortalMessage, "Premi SPACE per continuare");
+            }
         }
     }
 
-   
+
 
     void PlayAudio(int id) {
         aSource.clip = audioClips[id];

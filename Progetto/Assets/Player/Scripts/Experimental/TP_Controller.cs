@@ -35,6 +35,7 @@ public class TP_Controller : MonoBehaviour {
         HandleActionInput();
         // Read input.
         GetLocomotionInput();
+        // If the player has pressed the jump button then jump!
         // Handle action input.
         if (Input.GetButtonDown("Jump")) {
             Jump();
@@ -80,10 +81,7 @@ public class TP_Controller : MonoBehaviour {
     }
 
     void HandleActionInput() {
-        // If the player has pressed the jump button then jump!
-      
-
-
+       
         if (Input.GetMouseButton(0)) {
             Attack();
         }
@@ -100,6 +98,7 @@ public class TP_Controller : MonoBehaviour {
     }
 
     void Jump() {
+       
         // Call the motor to jump!
         TP_Motor.instance.Jump();
     }

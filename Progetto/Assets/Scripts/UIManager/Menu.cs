@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
-    public GameObject loadingOverlay;
-    [Header("Data Loader Object")]
-    public GameObject dataKeeper;
+    public GameObject loadingOverlay;  
     [Header("Main menu settings")]
+    public GameObject dataKeeper;
+  
     public Image preview;
     public int MainScene = 1;
     public int MenuScene = 2;

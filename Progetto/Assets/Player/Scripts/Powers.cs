@@ -7,7 +7,12 @@ public class Powers : MonoBehaviour {
     private Data data;
     private GameObject[] enemies;
     private bool[] PowersAvailable = { true, true };
+    [Header("Power Consumption")]
+    [Range(0f, 1f)] public float P1Cost = 0.09f;
+    [Range(0f,1f)] public float P2Cost = 0.15f;
+    [Range(0f, 1f)] public float P3Cost = 0.30f;
     [Header("CoolDown")]
+    public float EstrangeDistance = 3.0f;
     public float powerCoolDown = 2.0f;
     [Header("Beheavior")]
     public float triggerDistance = 3.0f;
@@ -23,6 +28,8 @@ public class Powers : MonoBehaviour {
 
     private void Start() {
         data = GameObject.Find("Scripts").GetComponent<Data>();
+        GetComponent<TP_Animator>().P1Cost = P1Cost;
+        
     }
     // Update is called once per frame
     void Update() {
@@ -32,15 +39,19 @@ public class Powers : MonoBehaviour {
         if (Input.GetMouseButton(2) && i != 0 && pLevels[i] > 0 && PowersAvailable[i - 1]) {
             StartCoroutine("wait", new float[] { powerCoolDown, i - 1 });
             PowersAvailable[i - 1] = false;
-            data.ReducePowerLevel(0.15f);
+           
             DoPower(power);
         }
     }
     void DoPower(DataFile.PowerType i) {
-        if (i == DataFile.PowerType.P2)
+        if (i == DataFile.PowerType.P2) {
             power2();
-        else
+            data.ReducePowerLevel(P2Cost);
+        }
+        else {
             power3();
+            data.ReducePowerLevel(P3Cost);
+        }
     }
 
 
@@ -58,7 +69,8 @@ public class Powers : MonoBehaviour {
         }
         var nearby = nearbyEnemies();
 
-        Instantiate(ParticleIceBeam, transform.position, transform.rotation); //particle system del congelamento
+        if (ParticleIceBeam != null)
+            Instantiate(ParticleIceBeam, transform.position, transform.rotation); //particle system del congelamento
 
         if (nearby != null)
             foreach (GameObject enemy in nearby) {
@@ -72,12 +84,14 @@ public class Powers : MonoBehaviour {
             aSource.Play();
         }
         var nearby = nearbyEnemies();
-
-        Instantiate(ParticleWindBeam, transform.position, transform.rotation); //particle system dell'allontanamento
+        Debug.Log(nearby.Length);
+        if(ParticleWindBeam != null)
+          Instantiate(ParticleWindBeam, transform.position, transform.rotation); //particle system dell'allontanamento
 
         if (nearby != null)
             foreach (GameObject enemy in nearby) {
-                enemy.transform.position -= enemy.transform.forward;
+                Debug.Log(enemy.transform.position);
+                enemy.transform.position -= EstrangeDistance * enemy.transform.forward;
             }
     }
 

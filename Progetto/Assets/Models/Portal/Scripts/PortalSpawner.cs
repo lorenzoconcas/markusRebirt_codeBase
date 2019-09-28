@@ -10,7 +10,8 @@ public class PortalSpawner : MonoBehaviour
     private GameObject[] enemies;
     public Light[] lights;
     public GameObject Portal;
-    
+    public bool lastLevel = false;
+    public GameObject madMarkus;
     public Material darkSky;
     public AudioClip PortalOpeningSound;
     public AudioSource aSource;
@@ -32,16 +33,23 @@ public class PortalSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
- 
-        var alive = 0;
-        foreach(GameObject enemy in enemies) {
-            if (enemy != null)
-                alive++;
+        if (lastLevel) {
+            if(madMarkus == null) {
+                LightsOut();
+                OpenPortal();
+            }
         }
-        if (alive == 0) {
-            LightsOut();
-            OpenPortal();       
-          
+        else {
+            var alive = 0;
+            foreach (GameObject enemy in enemies) {
+                if (enemy != null)
+                    alive++;
+            }
+            if (alive == 0) {
+                LightsOut();
+                OpenPortal();
+
+            }
         }
     }
 

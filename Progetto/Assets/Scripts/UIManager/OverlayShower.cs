@@ -12,6 +12,7 @@ public class OverlayShower : MonoBehaviour {
     public GameObject player;
     public AudioSource ThemeSpeaker;
     [Range(0f, 1f)] public float VolumeOnPause = 1.0f;
+    
     private bool showIntro = !Data.SaveDataAvailable(); //se non ci sono salvataggi siamo alla prima partita
 
     private Data dT;
@@ -53,8 +54,6 @@ public class OverlayShower : MonoBehaviour {
                 }
                 else {
                     TogglePause(!pauseOverlay.activeSelf);
-
-
                 }
             }
         }

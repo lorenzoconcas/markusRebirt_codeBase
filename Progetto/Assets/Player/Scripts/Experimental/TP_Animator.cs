@@ -74,11 +74,11 @@ public class TP_Animator : MonoBehaviour {
     private Data data;
     private bool RotoAttackAvailable = true;
     private bool NormalAttackAvailable = true;
-   
 
+    public float P1Cost  { get; set; }
 
-    #region PUBLIC_PROPERTIES
-    public Direction MoveDirection { get; set; }            // Property holds the movement direction.
+#region PUBLIC_PROPERTIES
+public Direction MoveDirection { get; set; }            // Property holds the movement direction.
     public CharacterState State { get; set; }               // Property holds the animation state.
 
     #endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
 
-    public Animator anim;
+    private Animator anim;
 
     private void Start()
     {
@@ -16,13 +16,13 @@ public class FallingPlatform : MonoBehaviour
         if (other.name.Equals("Markus"))
         {
             anim.Play("shake");
-            Invoke ("Drop", 1f);
+            Invoke("Drop", 1f);
         }
     }
 
     void Drop()
     {
-       // anim.Play("New State");
+        anim.enabled = false;
         GetComponent<Rigidbody>().isKinematic = false;
     }
 }

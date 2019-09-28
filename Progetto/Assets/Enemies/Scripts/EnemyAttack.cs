@@ -20,8 +20,11 @@ public class EnemyAttack : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {    
         if (other.gameObject.name.Contains("Markus")) {
-            DeadEngine.DoDamage();
-            eMotor.attack();
+
+            if (eMotor.status != EnemyMotor.Status.FROZEN) {
+                DeadEngine.DoDamage();
+                eMotor.attack();
+            }
         }
     }   
 }

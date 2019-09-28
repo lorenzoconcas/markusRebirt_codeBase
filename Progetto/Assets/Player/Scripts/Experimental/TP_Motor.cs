@@ -60,6 +60,8 @@ public class TP_Motor : MonoBehaviour {
 
             TP_Animator.instance.Jump();
             VerticalVelocity = jumpForce;
+           
+
         }
     }
 
