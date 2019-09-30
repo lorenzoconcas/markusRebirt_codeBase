@@ -43,7 +43,7 @@ public class TP_Animator : MonoBehaviour {
     public float acendingTime = 2.0f;
     #region ANIMATIONS_SPEED
 
-    [Header("Velocità Animazioni")]
+    [Header("Velocità Animazioni (tempo di reset)")]    
     [Tooltip("Calcola la durata con la formula t = (f_count/fps)/multiplier")]
     //valori da regolare secondo t = (f_count/fps)/multiplier
     public float NormalAttack = 0.92f;
@@ -248,7 +248,7 @@ public Direction MoveDirection { get; set; }            // Property holds the mo
                     break;
                 case CharacterState.Attacking:
                     if (NormalAttackAvailable) {
-                        StartCoroutine("wait", new float[] { RotoAttack, 1f });
+                        StartCoroutine("wait", new float[] { NormalAttack, 1f });
                         NormalAttackAvailable = false;                       
                     }
                   

@@ -84,15 +84,16 @@ public class Powers : MonoBehaviour {
             aSource.Play();
         }
         var nearby = nearbyEnemies();
-        Debug.Log(nearby.Length);
         if(ParticleWindBeam != null)
           Instantiate(ParticleWindBeam, transform.position, transform.rotation); //particle system dell'allontanamento
 
         if (nearby != null)
             foreach (GameObject enemy in nearby) {
-                Debug.Log(enemy.transform.position);
+              
                 enemy.transform.position -= EstrangeDistance * enemy.transform.forward;
             }
+        else
+            Debug.LogWarning("Non ci sono nemici abbastanza vicini");
     }
 
     private GameObject[] nearbyEnemies() {

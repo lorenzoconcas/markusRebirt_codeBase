@@ -12,14 +12,15 @@ public class StoryTeller : MonoBehaviour {
     public string continueButtonText;
 
     private void OnTriggerEnter(Collider other) {
-        if (other.name.Equals("Markus")) {
-
+      
+        if (other.gameObject.CompareTag("Player")) {
             continueButton.text = continueButtonText;
             messageObject.text = message;
-            Cursor.visible = true;
+            Cursor.visible = false;
             other.gameObject.SetActive(false);
-            overlay.SetActive(!overlay.activeSelf);
-            if (!name.Contains("Markus")) //il player non può essere eliminato
+            overlay.SetActive(true);
+         
+        //    if (!name.Contains("Markus")) //il player non può essere eliminato
                 Destroy(this.gameObject);
         }
     }

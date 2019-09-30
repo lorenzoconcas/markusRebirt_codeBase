@@ -174,6 +174,9 @@ public class Data : MonoBehaviour {
     public void SetLevel(int level) {
         saveData.level = level;
     }
+    public void IncreaseLevel() {
+        saveData.level++;
+    }
     public void SetAttack(DataFile.PowerType pType, float level) {
         switch (pType) {
             case DataFile.PowerType.P1:

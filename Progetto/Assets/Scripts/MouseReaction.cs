@@ -10,11 +10,17 @@ public class MouseReaction : MonoBehaviour {
     public float TBound = -12.0f;
     public float BBound = 12.0f;
     private Text text;
+    public AudioClip onMouseOverEffect;
+    public AudioSource aSource;
+
     void Start() {
         text = GetComponent<Text>();
+        if(aSource != null && onMouseOverEffect != null)
+        aSource.clip = onMouseOverEffect;
     }
 
     private void Update() {
+
         Vector3 relativePos = Input.mousePosition - transform.position;
 
         if ((relativePos.x >= LBound && relativePos.x <= RBound) && (relativePos.y >= TBound && relativePos.y <= BBound)) {
@@ -25,14 +31,18 @@ public class MouseReaction : MonoBehaviour {
             else
                 text.fontStyle = FontStyle.Bold;
 
-            if (name.Equals("Esci"))
+            if (name.Contains("Esci"))
                 text.color = Color.Lerp(Color.white, Color.HSVToRGB(1.0f, 1.0f, 0.8f), 5);
+
+            if(aSource != null)
+                 aSource.Play();
         }
         else {
             text.fontStyle = FontStyle.Normal;
             if (name.Equals("Esci"))
                 text.color = Color.Lerp(Color.HSVToRGB(1.0f, 1.0f, 0.8f), Color.white, 5);
-
+         
+           
         }
     }
 }

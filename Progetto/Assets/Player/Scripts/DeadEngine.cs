@@ -7,7 +7,7 @@ public class DeadEngine : MonoBehaviour {
     public string deadMessage = "Sei morto!";
 
     public float fallHeight = 250.0f;
-
+    public GameObject HitParticles;
     public AudioClip DeathSound;
     public AudioClip ShieldSound;
     public AudioClip PlayerDamageSound;
@@ -39,7 +39,7 @@ public class DeadEngine : MonoBehaviour {
     }
 
     void Update() {
-      
+
         if (dead) {
             if (Input.GetKeyUp(KeyCode.Space)) {
                 // sT.HideMessage(); non ne ho bisogno perchè ho già una funzione che chiude l'overlay
@@ -57,17 +57,24 @@ public class DeadEngine : MonoBehaviour {
 
     public void DoDamage() {
         var state = GetComponent<TP_Animator>().State;
-        if (state != TP_Animator.CharacterState.Defense || state != TP_Animator.CharacterState.Power1) {
-            if (dT.SetDamage(50))
-                ShowDead();
-            Play(PlayerDamageSound);
-        }
-        else if (state == TP_Animator.CharacterState.Defense)
+      
+
+        if(state == TP_Animator.CharacterState.Defense) {         
             Play(ShieldSound);
+        }
+        else {
+            if (state != TP_Animator.CharacterState.Power1) {
+                if (dT.SetDamage(50))
+                    ShowDead();
+                Play(PlayerDamageSound);
+                Instantiate(HitParticles, transform.position, Quaternion.identity);
+            }
+        }
+
     }
     public void ShowDead() {
         Play(DeathSound);
-      
+
         sT.ShowMessage(deadMessage, "Premi SPACE per riprovare");
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

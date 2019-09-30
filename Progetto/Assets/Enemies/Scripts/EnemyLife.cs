@@ -9,6 +9,7 @@ public class EnemyLife : MonoBehaviour {
 
     [Header("Unity Setup")]
     public ParticleSystem deathParticles;
+    public GameObject HitParticles;
     [Header("Suoni")]
     public AudioClip HitEffect;
     public AudioClip DeathEffect;
@@ -22,7 +23,8 @@ public class EnemyLife : MonoBehaviour {
     }
 
     void HitReceived() {
-        switch (GameObject.Find("Markus").GetComponent<TP_Animator>().State) {
+        var state = GameObject.Find("Markus").GetComponent<TP_Animator>().State;
+        switch (state) {
             case TP_Animator.CharacterState.Attacking:
                 life--;
                 break;
@@ -30,16 +32,20 @@ public class EnemyLife : MonoBehaviour {
                 life -= 2;
                 break;
         }
-        if (life <= 0) {
-            Play(DeathEffect);
-            Destroy(gameObject);
-            Instantiate(deathParticles, transform.position, Quaternion.identity);
+        if (state == TP_Animator.CharacterState.Attacking || state == TP_Animator.CharacterState.Power1) {
+            if (life <= 0) {
+                Play(DeathEffect);
+                Destroy(gameObject);
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
+            }
+            else {
+                Play(HitEffect);
+                Instantiate(HitParticles, transform.position, Quaternion.identity);
+            }
         }
-        else
-            Play(HitEffect);
     }
     private void Play(AudioClip clip) {
-        if (!(aSource.clip == clip && aSource.isPlaying))
+        if (!(aSource.clip == clip && aSource.isPlaying) && aSource != null)
             aSource.clip = clip;
         if (!aSource.isPlaying)
             aSource.Play();

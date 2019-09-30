@@ -192,6 +192,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7c76cfe46db72594a926b83a59baae7e, type: 3}
   aSource: {fileID: 0}
   loadingOverlay: {fileID: 0}
+  PortalMessage: 
+  LastLevel: 0
   checkPointMaterial: {fileID: 2100000, guid: aebb32da084350f47a56b02145a91ee5, type: 2}
 --- !u!114 &788734595056076073
 MonoBehaviour:
@@ -207,9 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deadMessage: Sei morto!
   fallHeight: 350
+  HitParticles: {fileID: 7137940298433821399, guid: 089b6426c7248fc429db2e5119e6b30a,
+    type: 3}
   DeathSound: {fileID: 8300000, guid: 975c187c7ee74f24f87edc6b1029a868, type: 3}
   ShieldSound: {fileID: 8300000, guid: b08882210baa0cb4c9e63e77a804c53c, type: 3}
-  EnemyAttackSound: {fileID: 0}
+  PlayerDamageSound: {fileID: 0}
   aSource: {fileID: 0}
 --- !u!82 &788734595056076069
 AudioSource:
@@ -341,6 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87f353874df8ca4cb0bef0d61285897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  P1Cost: 0.09
+  P2Cost: 0.15
+  P3Cost: 0.3
+  EstrangeDistance: 3
   powerCoolDown: 2
   triggerDistance: 25
   freezeTime: 2
@@ -349,6 +357,7 @@ MonoBehaviour:
   Power3AudioEffect: {fileID: 8300000, guid: f6ef149248d8da54bb63d323b6c8e70b, type: 3}
   ParticleIceBeam: {fileID: 7796377446203010872, guid: 9d6a4652773039047ace0a89e7fb3139,
     type: 3}
+  ParticleWindBeam: {fileID: 0}
 --- !u!1 &8778581070470261362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,7 +2045,6 @@ GameObject:
   - component: {fileID: 8778581072576873373}
   - component: {fileID: 8778581072576873372}
   - component: {fileID: 8778581072576873363}
-  - component: {fileID: 8778581072576873362}
   m_Layer: 0
   m_Name: Markus_model
   m_TagString: MarkusBody
@@ -2155,20 +2163,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}
---- !u!136 &8778581072576873362
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778581072576873374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.041056618
-  m_Height: 0.028612744
-  m_Direction: 1
-  m_Center: {x: 0.000014275658, y: -0.000073301526, z: -0.0020006746}
 --- !u!1001 &8778581072190880076
 PrefabInstance:
   m_ObjectHideFlags: 0

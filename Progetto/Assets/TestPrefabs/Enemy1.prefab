@@ -502,9 +502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de73c775670f00c45a57d3a758490550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 3
+  life: 5
   deathParticles: {fileID: 835879698201898693, guid: be371972495a006478591c3e811cda99,
     type: 3}
+  HitParticles: {fileID: 0}
   HitEffect: {fileID: 8300000, guid: 7da73582c751da34890b69c0fcc37553, type: 3}
   DeathEffect: {fileID: 8300000, guid: a7b0ff7957281684a841cc1870ce584a, type: 3}
   aSource: {fileID: 0}
@@ -1451,7 +1452,7 @@ GameObject:
   - component: {fileID: 6156550881275542640}
   - component: {fileID: 659503281138853310}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

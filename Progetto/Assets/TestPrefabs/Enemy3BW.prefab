@@ -1402,7 +1402,7 @@ GameObject:
   - component: {fileID: 1253697267176954496}
   - component: {fileID: 5064025821830615316}
   m_Layer: 0
-  m_Name: Enemy3 - 2
+  m_Name: Enemy3BW
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1535,9 +1535,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de73c775670f00c45a57d3a758490550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 1
+  life: 3
   deathParticles: {fileID: 835879698201898693, guid: be371972495a006478591c3e811cda99,
     type: 3}
+  HitParticles: {fileID: 0}
   HitEffect: {fileID: 8300000, guid: 6c42647d3f79d2f4ba7075e0db4438da, type: 3}
   DeathEffect: {fileID: 8300000, guid: a7b0ff7957281684a841cc1870ce584a, type: 3}
   aSource: {fileID: 0}
